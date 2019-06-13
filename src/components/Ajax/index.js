@@ -17,9 +17,7 @@ import $ from 'jquery'
 // let version = "http://172.38.5.190:9080";
 let version = "http://172.38.2.178:8000"
 let token = Cookies.get('token') ? "?token=" + Cookies.get('token') : "?";
-// class Cgicall extends Component {
 
-// }
 
 // 潘
 let BeforeSendGet = function (url, obj, fun) {

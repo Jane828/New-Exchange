@@ -149,7 +149,7 @@ class SideMenu extends Component {
             }
         }
         // 根据登录状态来显示不同的头部导航栏内容
-        if (true) { // this.state.loginState
+        if (this.state.loginState) { // this.state.loginState
             this.menuReviver = menuConfig
         } else {
             this.menuReviver = menuLoginBefore

@@ -60,15 +60,9 @@ class Regist extends Component {
                     level: gradeStr,
                 }
                 var _this = this;
-<<<<<<< HEAD
+
                 CgicallPost("/api/v1/visitor/email-register", obj, function (d) {
                     if (d.code === 0) {
-=======
-                CgicallPost("/api/v1/visitor/email-register",obj,function(d){
-                    console.log("submit------------注册成功！")
-                    console.log(d)
-                    if(d.code === 0) {
->>>>>>> c2f990ad255daf91e8c7139a2db16014f886f04d
                         message.success("注册成功！")
                         Cookies.set('account', d.result.account)
                         _this.state.account = d.result.account;

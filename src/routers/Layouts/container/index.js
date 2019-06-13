@@ -15,12 +15,6 @@ class Layouts extends Component {
     render() {
         this.clsArr = this.props.location.pathname.split('/');
         this.cls = this.clsArr[1]?(this.clsArr[1]+'Wrapper'):''
-<<<<<<< HEAD
-        console.log(this.cls);
-//        console.log(this.cls); ---> homeWrapper 
-=======
-        // console.log(this.cls); ----> 点击首页：homeWrapper; 点击钱包：walletWrapper; 点击个人中心(我的资产/消息中心)：usersWrapper
->>>>>>> c2f990ad255daf91e8c7139a2db16014f886f04d
         return (
             <div className='Layouts_wrap clearFix'>
                 <div className={"main-wrapper " + this.cls}>
