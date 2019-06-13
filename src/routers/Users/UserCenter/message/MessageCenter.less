@@ -1,0 +1,151 @@
+// .clerafix::after{
+//     content:'';
+//     display:both;
+//     clear:both;
+// }
+// .Home_{
+//     width: 845px;
+//     .messageBox{
+//         width: 100%;
+//         .messageBoxHeader{
+//             width: 100%;
+//             height: 60px;
+//             background: #ffffff;
+//             border: 1px solid rgba(217,217,217,0.7);
+//             box-shadow: 0 0 1px rgba(0,0,0,0.1);
+//             border-radius: 3px;
+//             span{
+//                 font-size: 20px;
+//                 margin-left: 20px;
+//                 color: black;
+//                 font-size: 16px;
+//                 font-weight: bold;
+//                 line-height: 60px;
+//             }
+//         }
+//         .messageBoxContent{
+//             width: 100%;
+//             height: 100%;
+//             .messageBoxContent-header{
+//                 width: 100%;
+//                 height: 60px;
+//                 .header-wrapper{
+//                     height: 100%;
+//                     width: 100%;
+//                     span{
+//                         float:left;
+//                         margin: 20px 0px 0px 10px;
+//                     }
+//                     .header-wrapper-all{
+//                         //margin-left: 10px;
+//                         color: #21ACEC;
+//                     }
+//                     .headerTabRead{
+//                         float:right;
+//                         border: 1px solid #21ACEC;
+//                         padding: 3px 13px;
+//                         border-radius: 20px;
+//                         color: #21ACEC;
+//                         margin: 17px 10px 0px 0px;
+//                     }
+//                 }
+
+//             }
+//             .messageBoxContent-List{
+//                 background: #ffffff;
+//                 box-shadow: 0 0 1px rgba(0,0,0,0.1);
+//                 li{
+//                     list-style:none;
+//                 }
+//                 .ListRedPoint{
+//                     position: relative;
+//                 }
+//                 .ListRedPoint::before{
+//                     content: "";
+//                     border: 3px solid;/*设置红色*/
+//                     border-color: red;
+//                     border-radius:3px;/*设置圆角*/
+//                     position: absolute;
+//                     z-index: 1000;
+//                     left: -2px;
+//                     top: 8px;
+//                 }
+//             }
+//         }
+//     }
+// }
+
+.messageList{
+    margin-bottom: 200px;
+    .messageBox-header{
+        background: #ffffff;
+        border: 1px solid rgba(217,217,217,0.6);
+        // border-bottom: 2px solid rgba(217,217,217,0.6);
+        border-radius: 3px;
+        padding: 0 20px;
+        height: 60px;
+        line-height: 60px;
+        color: black;
+        font-size: 16px;
+        font-weight: bold;
+    }
+    .messageBox-choice{
+        height: 50px;
+        .choice-wrapper{
+            clear: both;
+            .choice-left{
+                float: left;
+                margin: 15px 0px 0px 20px;
+                .choice-left-color{
+                    color: #00A0E9;
+                }
+                span{
+                    float: left;
+                    padding: 0px 6px;
+                    cursor:pointer;
+                }
+            }
+            .choice-right{
+                float: right;
+                margin: 10px 20px 0px 0px;
+                border: 1px solid #21ACEC;
+                padding: 3px 13px;
+                border-radius: 20px;
+                color: #21ACEC;
+                cursor:pointer;
+                
+            }
+        }
+        
+    }
+    .messageBox-list{
+        background: #ffffff;
+        cursor:pointer;
+        .listRead{
+            .ant-list-item-meta-title{
+                color:#999999;
+            }
+        }
+        .listNoRead{
+            .ant-list-item-meta-title{
+                color:#333333;
+            } 
+        }
+        .messageBox-list-time{
+            font-size:12px;
+            font-family:MicrosoftYaHei;
+            color:rgba(153,153,153,1);
+        }
+        .noMessageData{
+            height:242px;
+            margin: auto 0;
+            position: relative;
+            .messageImg{
+                position: absolute;
+                top: 15%;
+                left: 39%;
+            }
+        }
+        
+    }
+}
