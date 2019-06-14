@@ -27,7 +27,6 @@ let BeforeSendGet = function (url, obj, fun) {
             objstr += "&" + k + "=" + encodeURIComponent($.trim(obj[k]));
         }
     }
-
     url = version + url + "?_=" + new Date().getTime() + objstr;
     $.ajax({
         type: "GET",
@@ -70,6 +69,33 @@ let BeforeSendPost = function (url, obj, fun) {
         success: function (d) {
             d = initBackDatas(d);
             fun(d)
+        }
+    });
+}
+
+// 潘
+let BeforeSendPut = function(url, obj, fun){
+    var sobj = {};
+    for (var k in obj) {
+        if (typeof obj[k] === "object") {
+            sobj[k] = (k == "password") ? JSON.stringify(obj[k]) : JSON.stringify($.trim(obj[k]));
+        } else {
+            sobj[k] = (k == "password") ? obj[k] : $.trim(obj[k]);
+        }
+    }
+    url = version + url;
+    $.ajax({
+        url:url,
+        type: "PUT",
+        dataType: "json",
+        data: sobj,
+        beforeSend: function (xhr) {
+            token = Cookies.get("token")
+            xhr.setRequestHeader("Authorization", token);
+        },
+        success:function(d){
+            d = initBackDatas(d);
+            fun(d);
         }
     });
 }
@@ -339,4 +365,4 @@ let paramError = function (type) {
     return msg;
 }
 
-export { BeforeSendPost, BeforeSendGet, Cgicallget, Cgicallgets, CgicallPost, CgicallPut, ObjClone, GetErrorMsg }
+export { BeforeSendPut, BeforeSendPost, BeforeSendGet, Cgicallget, Cgicallgets, CgicallPost, CgicallPut, ObjClone, GetErrorMsg }

@@ -638,7 +638,7 @@ class SetAccount extends Component {
                                                                 this.state.phone ?
                                                                     // <span className='bound-disabled'  onClick={this.showChangePhoModal}>{contentSet.change}</span>:
                                                                     // <span className='bound-disabled' disabled onClick={this.showPhoModal}>{contentSet.bound}</span>
-                                                                    <span className='bound-disabled'>{contentSet.change}</span> :
+                                                                    <span onClick={this.showChangePhoModal}>{contentSet.change}</span> :
                                                                     <span className='bound-disabled'>{contentSet.bound}</span>
                                                             }
                                                             {/* 绑定手机
