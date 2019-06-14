@@ -38,21 +38,26 @@ class Message extends Component {
 
     handleList = (item, id, index) => {
         let _this = this;
-        let obj1 = {
-            mesid: id,
-            status: 'one'
-        }
-        BeforeSendPut("/api/v1/user/message/mark-read", obj1, function (d) {
-            if (_this.state.type == "noread") {
-                _this.handleNoreadNum()
-            } else {
-                item.IsRead = 1;
-                var unreadcount = _this.state.unReadCount - 1
-                _this.setState({
-                    unReadCount: unreadcount
-                })
+        console.log("hduiah")
+        if (_this.state.IsRead == 1) {
+
+        } else {
+            let obj1 = {
+                mesid: id,
+                status: 'one'
             }
-        });
+            BeforeSendPut("/api/v1/user/message/mark-read", obj1, function (d) {
+                if (_this.state.type == "noread") {
+                    _this.handleNoreadNum()
+                } else {
+                    item.IsRead = 1;
+                    var unreadcount = _this.state.unReadCount - 1
+                    _this.setState({
+                        unReadCount: unreadcount
+                    })
+                }
+            })
+        }
     }
     // handle = (item, e) => {
     //     e.target.style.color = '#999'
@@ -123,7 +128,7 @@ class Message extends Component {
             count: this.state.limit,
             status: this.state.noread
         }
-        
+
         BeforeSendPost("/api/v1/user/message/get-message", obj, function (d) {
             if (d.result) {
                 _this.setState({
@@ -140,23 +145,29 @@ class Message extends Component {
     }
     // 全部标记为已读
     setAllRead = (e) => {
-        console.log('e -------->', e)
         let _this = this
-        let obj = {
-            status: 'all'
-        }
-        BeforeSendPut("/api/v1/user/message/mark-read", obj, function (d) {
-            if (_this.state.type == "noread") {
-                _this.setState({
-                    dataMessage: [],
-                    unReadCount: 0
-                });
-            } else if (_this.state.type == "all") {
-                _this.handleAll()
-            } else {
-                _this.handleHadread()
+        if (_this.state.key) {
+            let obj = {
+                status: 'all'
             }
-        })
+            BeforeSendPut("/api/v1/user/message/mark-read", obj, function (d) {
+                if (_this.state.type == "noread") {
+                    _this.setState({
+                        dataMessage: [],
+                        unReadCount: 0
+                    });
+                } else if (_this.state.type == "all") {
+                    _this.handleAll()
+                } else {
+                    _this.handleHadread()
+                }
+            })
+        }
+        if (_this.state.unReadCount == 0) {
+            _this.setState({
+                key: false
+            })
+        }
     }
 
     //获取未读的数目
@@ -278,7 +289,7 @@ class Message extends Component {
                                                 renderItem={(item, index) => (
                                                     <List.Item key={item.ID}>
                                                         <List.Item.Meta className={item.IsRead == 0 ? 'listNoRead' : 'listRead'}
-                                                            avatar={<Badge status={item.isRead == 0 ? "error" : "default"} />}
+                                                            avatar={<Badge status={item.IsRead == 0 ? "error" : "default"} />}
                                                             title={item.Content}
                                                         >
                                                         </List.Item.Meta>
