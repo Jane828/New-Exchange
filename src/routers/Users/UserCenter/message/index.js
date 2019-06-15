@@ -38,15 +38,14 @@ class Message extends Component {
 
     handleList = (item, id, index) => {
         let _this = this;
-        console.log("hduiah")
         if (_this.state.IsRead == 1) {
-
+            return false
         } else {
-            let obj1 = {
+            let obj = {
                 mesid: id,
                 status: 'one'
             }
-            BeforeSendPut("/api/v1/user/message/mark-read", obj1, function (d) {
+            BeforeSendPut("/api/v1/user/message/mark-read", obj, function (d) {
                 if (_this.state.type == "noread") {
                     _this.handleNoreadNum()
                 } else {
@@ -59,10 +58,7 @@ class Message extends Component {
             })
         }
     }
-    // handle = (item, e) => {
-    //     e.target.style.color = '#999'
-    // }
-
+   
     // 全部
     handleAll = () => {
         let _this = this
@@ -301,7 +297,6 @@ class Message extends Component {
                                                 )}
                                             /> : <div className='noMessageData'><div className='messageImg'><img src={messageImg} /></div></div>
                                         }
-                                        {/* <Table  columns={this.state.columns} rowKey={ record => record.userID} dataSource={this.state.dataHistory} pagination={false} /> */}
                                     </div>
                                 </div>
                             </Content>

@@ -35,7 +35,8 @@ class PassModal extends Component {
     }
     defaultModal = () => {
         this.setState({
-            loading: false, emailHtml: '获取邮箱验证码',
+            loading: false, 
+            emailHtml: '获取邮箱验证码',
             phoneHtml: '获取手机验证码',
             codeDisType: false,
             timeAll: 60,
@@ -212,7 +213,6 @@ class PassModal extends Component {
     // 提交
     updatePass = (event) => {
         // 邮箱及验证码处理
-
         let arr1;
         var _this = this;
         if (this.state.type == 'email') arr1 = this.childEmail.handleSubmit();
@@ -366,6 +366,7 @@ class PhoneCodes extends Component {
                 arr.push(mobilePhone, PhoneCode);
             }
         })
+        
         return arr;
     }
     mobilePhone = (rule, value, callback) => {
@@ -505,7 +506,6 @@ class PassWordInputs extends Component {
     }
     // 提交时获取输入框数据
     handleSubmit = () => {
-
         let { form } = this.props;
         let arr = [];
         form.validateFields((err, values) => {

@@ -639,7 +639,7 @@ class SetAccount extends Component {
                                                                     // <span className='bound-disabled'  onClick={this.showChangePhoModal}>{contentSet.change}</span>:
                                                                     // <span className='bound-disabled' disabled onClick={this.showPhoModal}>{contentSet.bound}</span>
                                                                     <span onClick={this.showChangePhoModal}>{contentSet.change}</span> :
-                                                                    <span className='bound-disabled'>{contentSet.bound}</span>
+                                                                    <span onClick={this.showPhoModal}>{contentSet.bound}</span>
                                                             }
                                                             {/* 绑定手机
                                         <Modal

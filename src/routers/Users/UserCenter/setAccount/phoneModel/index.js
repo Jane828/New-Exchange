@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
-import { Rate, Modal, Button, Input, Form, Layout, Menu, List, Radio,Breadcrumb,message,Steps,Icon,Select} from 'antd'
-import { Cgicallget, CgicallPost, GetErrorMsg} from '@/components/Ajax'
+import React, { Component } from 'react'
+import { Rate, Modal, Button, Input, Form, Layout, Menu, List, Radio, Breadcrumb, message, Steps, Icon, Select } from 'antd'
+import { Cgicallget, CgicallPost, GetErrorMsg } from '@/components/Ajax'
 import boundSuc from '../img/boundSuccess.png'
- import BoundPhoOne from '../From/FormEmailBox.js'
- import BoundPhoTwo from '../From/FormPhoBox.js'
+import BoundPhoOne from '../From/FormEmailBox.js'
+import BoundPhoTwo from '../From/FormPhoBox.js'
 // import './index.less'
 import { Router, Route, Link, hashHistory } from 'react-router'
 const { Header, Footer, Sider, Content } = Layout;
@@ -15,37 +15,37 @@ const FormItem = Form.Item;
 
 
 class PhoneModal extends Component {
-    constructor(){
+    constructor() {
         super()
     }
-    state={
-        current:0,
-        emailCode:'',
-        googleCode:''
+    state = {
+        current: 0,
+        emailCode: '',
+        googleCode: ''
     }
-    nextThree=()=>{
+    nextThree = () => {
         this.props.nextThree()
         this.setState({
-            current:2
+            current: 2
         });
     }
-    passValueTwo = (e)=> {
-        console.log('google绑定器的验证码',e)
+    passValueTwo = (e) => {
         this.setState({
             emailCode: e.inputEmailCode,
             googleCode: e.googleCode,
-            current:1
+            current: 1,
+            // email: e.email
         });
     }
-    closePhoModal=()=>{
+    closePhoModal = () => {
         this.props.closePho()
         this.setState({
-            current:0
+            current: 0
         });
     }
-    codeExpires=()=>{
+    codeExpires = () => {
         this.setState({
-            current:0
+            current: 0
         });
     }
     render() {
@@ -54,35 +54,35 @@ class PhoneModal extends Component {
             <div>
                 <Modal
                     wrapClassName='pho-model-style'
-                    title = "绑定手机号"
-                    centered = 'true'
-                    visible = {this.props.showPho}
-                    onCancel = {this.closePhoModal}
-                    maskClosable = {false}
+                    title="绑定手机号"
+                    centered='true'
+                    visible={this.props.showPho}
+                    onCancel={this.closePhoModal}
+                    maskClosable={false}
                     footer={null}
-                    >
-                        <Steps labelPlacement='vertical' current={current}>
-                            <Step title="身份验证"/>
-                            <Step title="输入号码" />
-                            <Step title="绑定成功" />
-                        </Steps>
-                        { current === 0 ? <BoundPhoOne
-                            email={this.props.email}
-                            phone={this.props.phone}
-                            isAuthentication={this.props.isAuthentication}
-                            passValueTwo={e=>this.passValueTwo(e)}/>
-                            : null 
-                        }
+                >
+                    <Steps labelPlacement='vertical' current={current}>
+                        <Step title="身份验证" />
+                        <Step title="输入号码" />
+                        <Step title="绑定成功" />
+                    </Steps>
+                    {current === 0 ? <BoundPhoOne
+                        email={this.props.email}
+                        phone={this.props.phone}
+                        isAuthentication={this.props.isAuthentication}
+                        passValueTwo={e => this.passValueTwo(e)} />
+                        : null
+                    }
 
-				        { current === 1 ? <BoundPhoTwo 
-                            emailCode={this.state.emailCode}
-                            googleCode={this.state.googleCode}
-                            nextThree={this.nextThree}
-                            codeExpires={this.codeExpires}
-                            /> 
-                            : null 
-                        }
-				        { current === 2 ? <div className='pho-boundSuc' ><img src={boundSuc}/></div> : null }
+                    {current === 1 ? <BoundPhoTwo
+                        emailCode={this.state.emailCode}
+                        googleCode={this.state.googleCode}
+                        nextThree={this.nextThree}
+                        codeExpires={this.codeExpires}
+                    />
+                        : null
+                    }
+                    {current === 2 ? <div className='pho-boundSuc' ><img src={boundSuc} /></div> : null}
                 </Modal>
             </div>
         )

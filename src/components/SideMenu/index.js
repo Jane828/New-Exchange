@@ -7,7 +7,7 @@ import './index.less'
 import Cookies from 'js-cookie'
 import menuConfig from '@/config/menu'
 import menuLoginBefore from '@/config/menuLoginBefore'
-import { Cgicallget, CgicallPost, GetErrorMsg } from '@/components/Ajax'
+import { BeforeSendPost, Cgicallget, CgicallPost, GetErrorMsg } from '@/components/Ajax'
 import logo from '@/routers/Layouts/assets/logo-vv.png'
 import Fire from '@/routers/Layouts/assets/fire.png'
 
@@ -38,14 +38,6 @@ class SideMenu extends Component {
             sessionStorage.googleChangeCode = '';
             sessionStorage.boundGoogleSuc = '';
         }
-        // 首页： console.log(keys[0]) ---> /home 
-        //       console.log(keys[1]) ---> undefined
-        // 点击钱包(我的资产)：console.log(keys[0]) ---> /wallet/asset 
-        //                   console.log(keys[1]) ---> undefined
-        // 点击个人中心：console.log(keys[0]) ---> /users/userCenter/setAccount
-        //              console.log(keys[1]) ---> undefined
-        console.log('sessionStorage-------------')
-        console.log(sessionStorage)
     }
     componentWillMount() {
         // let { userInfo,updateName } = this.props.Store
@@ -68,6 +60,7 @@ class SideMenu extends Component {
     }
     // 点击导航栏切换至对应界面
     onSelect = ({ key }) => {
+        // 登录与注册
         if (key === '/login') {
             this.setState({
                 loginStyle: 'blueBorder',
@@ -104,12 +97,11 @@ class SideMenu extends Component {
         Cookies.remove('transactionverification', { path: '/' })
         this.setState({ 'loginState': (Cookies.get('account') ? true : false) })
         // 退出登录请求
-        CgicallPost("/api/v1/user/logout", '', function (d) {
-            console.log('d:------')
-            console.log.log(d)
+        BeforeSendPost("/api/v1/user/logout", '', function (d) {
             if (d.code === 0) {
+                console.log('退出登录成功:------')
             } else {
-                // message.error('退出登录失败！')
+                message.error('退出登录失败！')
             }
         });
     }
@@ -167,6 +159,7 @@ class SideMenu extends Component {
                                             // disabled={listItem.state}
                                             key={item.key + listItem.key}>
                                             <span >{listItem.title}</span>
+                                            {/* 个人中心、工单系统、信息中心、推荐返佣、退出登录 */}
                                         </Menu.Item>
                                     )}
                                 </SubMenu>)
