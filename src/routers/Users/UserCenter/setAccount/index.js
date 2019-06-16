@@ -78,14 +78,12 @@ class SetAccount extends Component {
         visiblePhone: false,
         verifyArr: [],
         codeValue: '',
-
         setTransValue: 'must',
         setBuildTime: false,
         setBuildTimeNum: 60,
         timerID: 0,
         //密码修改
         PhoVisible: false,
-
     }
     setNextPage = (val) => {
         this.props.setPage('realName');
@@ -114,7 +112,6 @@ class SetAccount extends Component {
         // });
 
         BeforeSendGet("/api/v1/user/userinfo", '', function (d) {
-            // console.log(d.result.info)
             let userInf = d.result.info
             if (userInf) {
                 console.log("getUserInf--------------------")
@@ -315,8 +312,6 @@ class SetAccount extends Component {
             showChangePho: false,
         });
     }
-
-
     changeNextTwo = (e) => {
         this.setState({
             PhoChangeCurrent: 1
@@ -350,7 +345,6 @@ class SetAccount extends Component {
         //         message.error(GetErrorMsg(d))
         //     }
         // });
-
 
         BeforeSendGet("/api/v1/user/userinfo", '', function (d) {
             console.log("changeNextThree---------------------")
@@ -398,7 +392,6 @@ class SetAccount extends Component {
         this.setState({ codeValue: e.target.value });
     }
     handleOkPhone = (type) => {
-        console.log("6666666666666", type)
         let _this = this
         let obj = {
             method: this.state.setTransValue,
@@ -537,7 +530,7 @@ class SetAccount extends Component {
             setButton: '设置',
             nameTrans: '实名验证',
         }
-        // const { getFieldDecorator } = this.props.form;
+
         const selectPhoAfter = (
             <Select defaultValue="666" style={{ width: 163 }}>
                 <Option value="zh">中国</Option>

@@ -37,22 +37,11 @@ class BoundPhoOne extends Component {
 
     //获取邮箱验证码
     getEmailMessage = () => {
-        // console.log('prop------------')
-        // console.log(this.props)
         let _this = this
         let obj = {
             type: 'email-check',
             email: _this.props.email,
         }
-        // CgicallPost("/apiv1/visitor/getValidateCode", obj, function (d) {
-        //     if (d.result) {
-        //         message.success('已向您的邮箱发送了验证邮件，请注意查收');
-        //         _this.countDown()
-
-        //     } else {
-        //         message.error(GetErrorMsg(d));
-        //     }
-        // });
         BeforeSendPost("/api/v1/user/email_code", obj, function (d) {
             if (d.code == 0) {
                 message.success('已向您的邮箱发送了验证邮件，请注意查收');
@@ -67,12 +56,8 @@ class BoundPhoOne extends Component {
     phoNextNum = (e) => {
         let _this = this
         //验证码
-        let inputEmailCode = this.props.form.getFieldValue('inputEmailCode')
-        let email = _this.props.email
-
-
-        let googleCode = this.props.form.getFieldValue('googleCode') || ''
-
+        let inputEmailCode = this.props.form.getFieldValue('inputEmailCode');
+        let googleCode = this.props.form.getFieldValue('googleCode') || '';
         if (inputEmailCode == '' || inputEmailCode == undefined) {
             message.error('邮箱验证码不能为空')
             return
@@ -84,19 +69,17 @@ class BoundPhoOne extends Component {
         //     }
         // }
         let obj = {
-            email: email,
+            email: _this.props.email,
             code: inputEmailCode,
         }
-        _this.props.passValueTwo({ inputEmailCode, googleCode })
-        // BeforeSendPost("/api/v1/user/email_code_check", obj, function (d) {
-        //     if (d.code == 0) {
-        //         _this.props.passValueTwo({ inputEmailCode, googleCode })
-        //     } else if (d.code == -1) {
-        //         message.error(GetErrorMsg(d));
-        //     }
-        // });
+        BeforeSendPost("/api/v1/user/email_code_check", obj, function (d) {
+            if (d.code == 0) {
+                _this.props.passValueTwo({ inputEmailCode, googleCode })
+            } else if (d.code == -1) {
+                message.error(GetErrorMsg(d));
+            }
+        });
     }
-
     render() {
         const { getFieldDecorator } = this.props.form
         const { loading, loadingLogin } = this.props.store

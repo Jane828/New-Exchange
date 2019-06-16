@@ -9,7 +9,7 @@ import transNum from '../img/transNum.png'
 import Phone from '../img/phone.png'
 import googlePng from '../img/googlePng.png'
 const FormItem = Form.Item
-const Option = Select.Option;
+const Option = Select.Option
 
 @inject('store')
 @observer
@@ -23,8 +23,8 @@ class FromBox extends Component {
         codeDisType: false
     }
     countDown = () => {
-        var num = this.state.timeAll;
         var _this = this;
+        var num = _this.state.timeAll;
         setTimeout(function () {
             if (num) {
                 _this.setState({ codeHtml: num + '秒后重新获取', codeDisType: true })
@@ -39,10 +39,11 @@ class FromBox extends Component {
 
     // 获取手机短信验证码
     getPhoMessage = () => {
+        console.log('获取手机短信验证码-------------------')
         console.log(this.props)
-        console.log(this.state)
         let _this = this
         let inputPhoNumber = this.props.form.getFieldValue('phoNumber')
+        console.log('填入的新手机号码：', inputPhoNumber)
         if (inputPhoNumber == "") {
 
         } else {
@@ -53,18 +54,14 @@ class FromBox extends Component {
             email: _this.props.email,
             phone: inputPhoNumber
         }
-
-
-        // BeforeSendPost("/api/v1/user/phone_code", obj, function (d) {
-        //     if (d.result) {
-        //         message.success('已向您的手机号发送了验证短信，请注意查收');
-        //         _this.countDown()
-
-        //     } else {
-        //         message.error(GetErrorMsg(d));
-        //     }
-        // });
-
+        BeforeSendPost("/api/v1/user/phone_code", obj, function (d) {
+            if (d.result) {
+                message.success('已向您的手机号发送了验证短信，请注意查收');
+                _this.countDown
+            } else {
+                message.error(GetErrorMsg(d));
+            }
+        })
     }
 
     // 点击下一步
@@ -125,14 +122,6 @@ class FromBox extends Component {
     render() {
         const { getFieldDecorator } = this.props.form
         const { loading, loadingLogin } = this.props.store
-        // const selectPhoAfter = (
-        //     <Select defaultValue="中国" className='selectCouPho'>
-        //       <Option value="zh">中国</Option>
-        //       <Option value="jp">安哥拉</Option>
-        //       <Option value="cn">美国</Option>
-        //       <Option value="org">法国</Option>
-        //     </Select>
-        //   );
         const selectPhoAfter = getFieldDecorator('prefix', {
             initialValue: 'china',
         })(

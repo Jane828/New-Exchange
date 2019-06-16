@@ -496,12 +496,5 @@ class AvatarDeclaration extends React.Component {
       );
     }
 }
-   
-  
-
-// *********手机绑定
-
-
-// *********Google绑定
 
 export default RealName

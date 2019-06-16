@@ -184,12 +184,16 @@ class FromBox extends Component {
         this.props.userContract();    
     }
     handleSubmit = (e) => {
-        console.log('regist--------------')
-        console.log(e)
+        console.log('注册-------------------')
+        console.log('e', e)
+        console.log('this.prop:', this.prop)
+        let inputuserName = this.props.form.getFieldValue('email')
+        console.log('注册时填入的账号：', inputuserName)
+        // const { getFieldDecorator } = this.props.form;
         e.preventDefault()
         let { updateLoading } = this.props.store
         let { form } = this.props
-        this.props.submit(form, updateLoading,this.state.gradeStr)
+        this.props.submit(form, updateLoading, this.state.gradeStr)
     }
     render(){
         const { getFieldDecorator } = this.props.form
