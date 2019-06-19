@@ -366,7 +366,6 @@ class PhoneCodes extends Component {
                 arr.push(mobilePhone, PhoneCode);
             }
         })
-        
         return arr;
     }
     mobilePhone = (rule, value, callback) => {

@@ -152,7 +152,7 @@ class SideMenu extends Component {
                     {this.menuReviver.map((item, i) =>
                         item.list && item.list.length > 0 ?
                             item.key ?
-                                (<SubMenu key={item.key} className={item.type} trigger="hover" title={<span><span className={'font icon-' + item.icon}></span><span>{(item.key == "/users") ? userInfoEmail : item.title}</span></span>}>
+                                (<SubMenu key={item.key} className={item.type} trigger="hover" title={<span><span className={'font icon-' + item.icon}></span><span>&nbsp;&nbsp;{(item.key == "/users") ? userInfoEmail : item.title}</span></span>}>
                                     {/*点击用户账号下拉菜单*/}
                                     {item.list.map((listItem, i) =>
                                         <Menu.Item

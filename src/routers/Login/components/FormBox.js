@@ -10,13 +10,10 @@ class FromBox extends Component {
     constructor(){
         super()
     }
+    state = {
+        
+    }
     handleSubmit = (e) => {
-        console.log('登陆-------------------')
-        console.log('e:', e)
-        console.log('this.prop:', this.prop)
-        let inputuserName = this.props.form.getFieldValue('userName')
-        console.log('登陆时填入的账号：', inputuserName)
-        // const { getFieldDecorator } = this.props.form;
         e.preventDefault()
         let { updateLoading } = this.props.store
         let { form } = this.props

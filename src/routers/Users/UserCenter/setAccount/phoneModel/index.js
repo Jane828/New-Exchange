@@ -21,9 +21,10 @@ class PhoneModal extends Component {
     state = {
         current: 0,
         emailCode: '',
-        googleCode: ''
+        googleCode: '',
+        email: ''
     }
-    nextThree = () => {
+    nextThree = (msg) => {
         this.props.nextThree()
         this.setState({
             current: 2
@@ -34,7 +35,7 @@ class PhoneModal extends Component {
             emailCode: e.inputEmailCode,
             googleCode: e.googleCode,
             current: 1,
-            // email: e.email
+            email: e.userName
         });
     }
     closePhoModal = () => {

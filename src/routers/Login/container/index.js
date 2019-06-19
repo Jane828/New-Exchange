@@ -7,7 +7,7 @@ import md5 from 'js-md5'
 import FormBox from '../components/FormBox'
 import Cookies from 'js-cookie'
 import store from '../store'
-import { Cgicallget, Cgicallgets, CgicallPost, GetErrorMsg } from '@/components/Ajax'
+import { BeforeSendPost, Cgicallget, Cgicallgets, CgicallPost, GetErrorMsg } from '@/components/Ajax'
 import { sha256, sha224 } from 'js-sha256'
 import CodeModal from '../codeModal'
 import PassModal from '../pwModal'
@@ -84,10 +84,12 @@ class Login extends Component {
     // 登录验证获取token
     PhoneVerify = (obj) => {
         let _this = this;
-        CgicallPost("/api/v1/visitor/login", obj, function (d) {
+        var account = _this.state.userName
+        BeforeSendPost("/api/v1/visitor/login", obj, function (d) {
+            console.log(d)
             if (d.code === 0) {
                 message.success('登录成功!');
-                Cookies.set('account', d.result.account)
+                Cookies.set('account', account)
                 Cookies.set('token', "Bearer " + d.result.token)
                 _this.props.history.push('/home')
             } else {
@@ -97,7 +99,7 @@ class Login extends Component {
     }
     GoogleVerify = (obj) => {
         let _this = this;
-        CgicallPost("/apiv1/visitor/loginWithAuth", obj, function (d) {
+        BeforeSendPost("/apiv1/visitor/loginWithAuth", obj, function (d) {
             if (d.result) {
                 message.success('登录成功!');
                 _this.props.history.push('/home')
@@ -118,7 +120,7 @@ class Login extends Component {
                     ticket: res.ticket,
                     randstr: res.randstr
                 }
-                CgicallPost("/api/v1/visitor/phone-code", obj, function (d) {
+                BeforeSendPost("/api/v1/visitor/phone-code", obj, function (d) {
                     if (d.code === 0) {
                         _this.setState({
                             visiblePhone: true
@@ -195,7 +197,7 @@ class Login extends Component {
                     password: md5(password)
                 }
                 // 判断用户输入邮箱密码是否正确
-                CgicallPost('/api/v1/visitor/check-user', objs, function (d) {
+                BeforeSendPost('/api/v1/visitor/check-user', objs, function (d) {
                     if (d.code === 0) {
                         // 判断邮箱是否绑定了手机号码
                         Cgicallgets("/api/v1/visitor/bind-info", obj, function (d) {

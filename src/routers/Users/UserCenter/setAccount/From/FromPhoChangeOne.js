@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Form, Input, Button, Icon ,message} from 'antd'
-import { Cgicallget, CgicallPost, GetErrorMsg} from '@/components/Ajax'
+import { BeforeSendPost, Cgicallget, CgicallPost, GetErrorMsg} from '@/components/Ajax'
 import { inject, observer } from 'mobx-react'
 import boundSuc from '../img/boundSuccess.png'
 import emailPng from '../img/emailPng.png'
@@ -27,7 +27,7 @@ class PhoChangeOne extends Component {
         changePho:'phone',
         changeGoogle:'google',
     }
-    //邮箱验证码
+    // 邮箱验证码拼图
     countDown = () => {
         let num = this.state.timeAll;
         let _this = this;
@@ -42,15 +42,15 @@ class PhoChangeOne extends Component {
             } 
         },1000)
     }
+    // 获取邮箱验证码
     getEmailMessage=()=>{
         let _this=this
         let obj = {
-            type: 'emailmodifybindphone',
-            account: this.props.email,
-            receiver : 'email'
+            type: 'email-check',
+            email: this.props.email,
         }
-        CgicallPost("/apiv1/visitor/getValidateCode",obj,function(d){
-            if(d.result) {
+        BeforeSendPost("/api/v1/user/email_code", obj, function(d){
+            if(d.code == 0) {
                 message.success('已向您的邮箱发送了验证邮件，请注意查收');
                 _this.countDown()
 
@@ -60,7 +60,7 @@ class PhoChangeOne extends Component {
         });
 
     }
-    //手机验证码
+    // 手机验证码拼图
     countPhoDown = () => {
         let numChange = this.state.timePhoAll;
         let _this = this;
@@ -76,14 +76,15 @@ class PhoChangeOne extends Component {
             } 
         },1000)
     }
+    // 获取手机验证码
     getPhoMessage=()=>{
         let _this=this
         let obj = {
-            type: 'oldphonemodifybindphone',
-            account: this.props.phone,
-            receiver : 'phone'
+            type: 'phone-check',
+            phone: this.props.phone,
+            email: this.props.email
         }
-        CgicallPost("/apiv1/visitor/getValidateCode",obj,function(d){
+        BeforeSendPost("/api/v1/user/phone_code", obj, function(d){
             if(d.result) {
                 message.success('已向您的手机号发送了验证短信，请注意查收');
                 _this.countPhoDown()
@@ -101,55 +102,51 @@ class PhoChangeOne extends Component {
         if(this.props.isAuthentication) this.state.arr.push("google")
         if(this.props.phone) this.state.arr.push("phone");
     }
-    /* **************** */
+
+    // 点击下一步
     changePhoNext = (e) => {
         let _this=this
         let changeGoogleCode = this.props.form.getFieldValue('changeGoogleInputCode')
         let changePhoCode = this.props.form.getFieldValue('changePhoInputCode')
         let changeEmailCode = this.props.form.getFieldValue('changeEmailInputCode')
-        let obj = {
-            type: 'emailmodifybindphone',
-            account: this.props.email,
-            code : changeEmailCode
-        }
-        let obj1 = {
-            type: 'oldphonemodifybindphone',
-            account: this.props.phone,
-            code : changePhoCode
-        }
         if(this.state.type=='phone'){
             if(this.props.phone){
-                if(changePhoCode==''||changePhoCode==undefined){
+                if(changePhoCode == '' || changePhoCode == undefined){
                     message.error('手机验证码不能为空')
                     return
                 }
             }
-        }else if(this.state.type=='google'){
+        }else if(this.state.type == 'google'){
             if(this.props.isAuthentication){
-                if(changeGoogleCode==''||changeGoogleCode==undefined){
+                if(changeGoogleCode == '' || changeGoogleCode == undefined){
                     message.error('google验证码不能为空')
                     return
                 }
             }
         }
-        if(changeEmailCode==''||changeEmailCode==undefined){
+        if(changeEmailCode == '' || changeEmailCode == undefined){
             message.error('邮箱验证码不能为空')
             return
         }
-       
-        CgicallPost("/apiv1/visitor/validateCodeExist",obj,function(d){
+        let obj = {
+            email: this.props.email,
+            code : changeEmailCode
+        }
+        let obj1 = {
+            phone: this.props.phone,
+            email: this.props.email,
+            code : changePhoCode
+        }
+        BeforeSendPost("/api/v1/user/email_code_check", obj, function(d){
             if(d.result) {
-                CgicallPost("/apiv1/visitor/validateCodeExist",obj1,function(e){
+                BeforeSendPost("/api/v1/user/bind-phone", obj1, function(e){
                     if(e.result) {
-                        
-                        _this.props.changePassValueTwo({changeGoogleCode,changeEmailCode,changePhoCode})
+                        _this.props.changePassValueTwo({changeGoogleCode, changeEmailCode, changePhoCode})
                     }else {
                         message.error('手机验证码错误');
                         return
                     } 
-                });
-                
-                // _this.props.changeNextTwo()
+                })
             }else {
                 message.error(GetErrorMsg(d));
             } 

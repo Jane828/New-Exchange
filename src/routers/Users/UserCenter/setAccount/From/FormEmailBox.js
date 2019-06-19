@@ -7,6 +7,7 @@ import boundSuc from '../img/boundSuccess.png'
 import emailPng from '../img/emailPng.png'
 import transNum from '../img/transNum.png'
 import googlePng from '../img/googlePng.png'
+
 const FormItem = Form.Item
 
 @inject('store')
@@ -62,12 +63,12 @@ class BoundPhoOne extends Component {
             message.error('邮箱验证码不能为空')
             return
         }
-        // if (this.props.isAuthentication) {
-        //     if (googleCode == '' || googleCode == undefined) {
-        //         message.error('Google验证码不能为空')
-        //         return
-        //     }
-        // }
+        if (this.props.isAuthentication) {
+            if (googleCode == '' || googleCode == undefined) {
+                message.error('Google验证码不能为空')
+                return
+            }
+        }
         let obj = {
             email: _this.props.email,
             code: inputEmailCode,

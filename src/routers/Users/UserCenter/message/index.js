@@ -251,7 +251,8 @@ class Message extends Component {
             current: this.state.page,
             total: this.state.allcount,
             pageSize: this.state.limit,
-            onChange: this.ShowSizeChange
+            onChange: this.ShowSizeChange,
+            size: 'small'
         }
         return (
             <Provider store={this.store}>

@@ -114,8 +114,6 @@ class SetAccount extends Component {
         BeforeSendGet("/api/v1/user/userinfo", '', function (d) {
             let userInf = d.result.info
             if (userInf) {
-                console.log("getUserInf--------------------")
-                console.log(userInf)
                 _this.setState({
                     // isAuthentication: userInf.isAuthentication,
                     // isCertification: userInf.isCertification,
@@ -171,10 +169,7 @@ class SetAccount extends Component {
         // });
 
         BeforeSendGet("/api/v1/user/userinfo", '', function (d) {
-            console.log("componentDidMount--------------")
-            console.log(d)
             let userInf = d.result.info
-            console.log(userInf)
             if (userInf) {
                 _this.setState({
                     // isAuthentication: userInf.isAuthentication,

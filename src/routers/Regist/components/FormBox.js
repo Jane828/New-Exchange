@@ -21,7 +21,7 @@ class FromBox extends Component {
         grade: '',
         gradeStr: '',
         btnDisType: true,
-        codeLoading:false
+        codeLoading:false,
     }
     countDown = () => {
         var num = this.state.timeAll;
@@ -184,12 +184,6 @@ class FromBox extends Component {
         this.props.userContract();    
     }
     handleSubmit = (e) => {
-        console.log('注册-------------------')
-        console.log('e', e)
-        console.log('this.prop:', this.prop)
-        let inputuserName = this.props.form.getFieldValue('email')
-        console.log('注册时填入的账号：', inputuserName)
-        // const { getFieldDecorator } = this.props.form;
         e.preventDefault()
         let { updateLoading } = this.props.store
         let { form } = this.props

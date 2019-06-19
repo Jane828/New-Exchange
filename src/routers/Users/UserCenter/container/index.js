@@ -58,9 +58,6 @@ class MessageCenter extends Component {
         }); 
     }
     passEmailAut=(x,y,z)=>{
-        console.log("xxxxxxxxxxxxxxxxx",x)
-        console.log("yyyyyyyyyyyyyyyyy",y)
-        console.log("zzzzzzzzzzzzzzzzz",z)
         this.setState({
             email: x,
             isAuthentication:y,
@@ -68,7 +65,6 @@ class MessageCenter extends Component {
         }); 
     }
     googleCodeValue = (e)=>{
-        console.log('pppppppppppppppppppppppp',e)
         this.setState({
             googleEmailCode: e.inputEmailCode,
             phoneCode: e.phoneCode
@@ -93,7 +89,6 @@ class MessageCenter extends Component {
         });
     }
     
-    // **************
     getContMain = (event) => {
         console.log('event&&&&&&&',event)
         if(event && typeof event == "string")  {
@@ -109,8 +104,6 @@ class MessageCenter extends Component {
         // this.forceUpdate();
     }
     getPage = (key) => {
-        console.log('**********************')
-        console.log(key);
         switch(key) {
             case 'messageCenter':
                 LoadableComponent = Loadable({

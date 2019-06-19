@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Form, Input, Button, Icon, message, Select } from 'antd'
 import { BeforeSendPost, CgicallPost, GetErrorMsg } from '@/components/Ajax'
 import { inject, observer } from 'mobx-react'
+import Cookies from 'js-cookie'
 import boundSuc from '../img/boundSuccess.png'
 import emailPng from '../img/emailPng.png'
 import transNum from '../img/transNum.png'
@@ -13,6 +14,7 @@ const Option = Select.Option
 
 @inject('store')
 @observer
+
 class FromBox extends Component {
     constructor() {
         super()
@@ -20,8 +22,10 @@ class FromBox extends Component {
     state = {
         codeHtml: '获取短信验证码',
         timeAll: 60,
-        codeDisType: false
+        codeDisType: false,
+        email: Cookies.get('account')
     }
+    
     countDown = () => {
         var _this = this;
         var num = _this.state.timeAll;
@@ -39,25 +43,17 @@ class FromBox extends Component {
 
     // 获取手机短信验证码
     getPhoMessage = () => {
-        console.log('获取手机短信验证码-------------------')
-        console.log(this.props)
-        let _this = this
-        let inputPhoNumber = this.props.form.getFieldValue('phoNumber')
-        console.log('填入的新手机号码：', inputPhoNumber)
-        if (inputPhoNumber == "") {
-
-        } else {
-
-        }
+        let _this = this 
+        let inputPhoNumber = this.props.form.getFieldValue('phoNumber')     
         let obj = {
             type: 'phone-check',
-            email: _this.props.email,
+            email: this.state.email,
             phone: inputPhoNumber
         }
         BeforeSendPost("/api/v1/user/phone_code", obj, function (d) {
             if (d.result) {
                 message.success('已向您的手机号发送了验证短信，请注意查收');
-                _this.countDown
+                _this.countDown()
             } else {
                 message.error(GetErrorMsg(d));
             }
@@ -70,53 +66,68 @@ class FromBox extends Component {
         let inputPhoNumber = this.props.form.getFieldValue('phoNumber')
         let inputPhoCode = this.props.form.getFieldValue('inputPhoCode')
         let obj = {
-            phonecode: inputPhoCode,
-            emailcode: this.props.emailCode,
-            phone: inputPhoNumber
-        }
-        let obj1 = {
-            phonecode: inputPhoCode,
-            emailcode: this.props.emailCode,
             phone: inputPhoNumber,
-            authtoken: this.props.googleCode
+            email: this.state.email,
+            code: inputPhoCode
         }
         if (inputPhoCode == '' || inputPhoCode == undefined) {
             message.error('手机验证码不能为空')
             return
         }
-        if (this.props.isAuthentication) {
-            BeforeSendPost("/apiv1/user/bindPhoneWithAuth", obj1, function (d) {
-                if (d.result) {
-                    _this.props.nextThree()
-                } else {
-                    if (d.error.code == 5006) {
-                        _this.props.codeExpires()
-                        message.error('验证码过期');
-                        return
-                    } else if (d.error.code == 7001) {
-                        message.error('该手机号已经被注册');
-                        return
-                    }
-                    message.error('手机号码格式错误');
+        BeforeSendPost("/api/v1/user/bind-phone", obj, function (d) {
+            if (d.result) {
+                _this.props.nextThree()
+            } else {
+                if (d.error.code == 5006) {
+                    _this.props.codeExpires()
+                    message.error('验证码过期');
+                    return
+                } else if (d.error.code == 7001) {
+                    message.error('该手机号已经被注册');
+                    return
                 }
-            });
-        } else {
-            BeforeSendPost("/apiv1/user/bindPhone", obj, function (d) {
-                if (d.result) {
-                    _this.props.nextThree()
-                } else {
-                    if (d.error.code == 5006) {
-                        _this.props.codeExpires()
-                        message.error('验证码过期');
-                        return
-                    } else if (d.error.code == 7001) {
-                        message.error('该手机号已经被注册');
-                        return
-                    }
-                    message.error('手机号码格式错误');
-                }
-            });
-        }
+                message.error('手机号码格式错误');
+            }
+        });
+        // let obj1 = {
+        //     phonecode: inputPhoCode,
+        //     emailcode: this.props.emailCode,
+        //     phone: inputPhoNumber,
+        //     authtoken: this.props.googleCode
+        // }
+        // if (this.props.isAuthentication) {
+        //     BeforeSendPost("/apiv1/user/bindPhoneWithAuth", obj1, function (d) {
+        //         if (d.result) {
+        //             _this.props.nextThree()
+        //         } else {
+        //             if (d.error.code == 5006) {
+        //                 _this.props.codeExpires()
+        //                 message.error('验证码过期');
+        //                 return
+        //             } else if (d.error.code == 7001) {
+        //                 message.error('该手机号已经被注册');
+        //                 return
+        //             }
+        //             message.error('手机号码格式错误');
+        //         }
+        //     });
+        // } else {
+        //     BeforeSendPost("/apiv1/user/bindPhone", obj, function (d) {
+        //         if (d.result) {
+        //             _this.props.nextThree()
+        //         } else {
+        //             if (d.error.code == 5006) {
+        //                 _this.props.codeExpires()
+        //                 message.error('验证码过期');
+        //                 return
+        //             } else if (d.error.code == 7001) {
+        //                 message.error('该手机号已经被注册');
+        //                 return
+        //             }
+        //             message.error('手机号码格式错误');
+        //         }
+        //     });
+        // }
     }
 
     render() {
