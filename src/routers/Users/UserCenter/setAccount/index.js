@@ -553,11 +553,11 @@ class SetAccount extends Component {
                                                 <Content className="contentInf-Content">
                                                     <div className="contentInf-Content-one">
                                                         <div className="one-style1">
-                                                            <span className="one-style-account">{contentInf.account}:&nbsp;</span>
+                                                            <span className="one-style-account">{contentInf.account}&nbsp;:</span>
                                                             <span>{this.state.email}</span>
                                                         </div>
                                                         <div className="one-style2">
-                                                            <span>{contentInf.logTime}:&nbsp;</span>
+                                                            <span>{contentInf.logTime}&nbsp;:</span>
                                                             <span style={{ color: '#A4A4A4', fontSize: '10px' }}>
                                                                 {/* {this.state.loginTime} */}
                                                                 {/* {new Date(parseInt(this.state.loginTime) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ')} */}
@@ -575,7 +575,7 @@ class SetAccount extends Component {
                                                             <span className="two-style-account">{contentInf.logPassword}</span>
                                                         </div>
                                                         <div className="two-style2">
-                                                            <span>{contentInf.passwordStr}:&nbsp;</span>
+                                                            <span>{contentInf.passwordStr}&nbsp;:</span>
                                                             {/* <span style={{color:'green'}}>{contentInf.passwordIn}</span> */}
                                                             {(() => {
                                                                 switch (this.state.passwordStrength) {

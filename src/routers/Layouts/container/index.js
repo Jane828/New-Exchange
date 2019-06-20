@@ -21,7 +21,6 @@ class Layouts extends Component {
                     <Left logout={this.logout} />
                     <Main />
                 </div>
-               
                 <Bottom />
             </div>
         )

@@ -21,7 +21,7 @@ class Message extends Component {
     }
     state = {
         dataMessage: [],
-        limit: 10,
+        limit: 5,
         page: 1,
         allcount: 1,
         all: 'all',
@@ -252,6 +252,8 @@ class Message extends Component {
             total: this.state.allcount,
             pageSize: this.state.limit,
             onChange: this.ShowSizeChange,
+            // showSizeChanger: true,
+            // showQuickJumper: true,
             size: 'small'
         }
         return (

@@ -35,7 +35,9 @@ class Login extends Component {
         codeValue: '',
         codeDisType: false,
         pwKey: 'fdec3af2f062f9d5893d22ffb46164d7ffcbee648cffb96af79121e7b274d979',
-        hidePhone: '' // 登录输入手机验证码时显示的半隐藏手机号码
+        hidePhone: '', // 登录输入手机验证码时显示的半隐藏手机号码
+        ip: '',
+        address: ''
     }
     showModalPhone = () => {
         let arr = [];
@@ -92,16 +94,46 @@ class Login extends Component {
             let System = _this.getOperationSys();
             let Browser = _this.getBrowser();
             let LoginMethod = System + ' ' + Browser;
-            console.log('获取登录历史信息------------------', LoginMethod, obj.username);
+            let obj1 = {
+                username: account,
+                loginip: _this.state.ip,
+                loginaddr: _this.state.address,
+                loginmethod: LoginMethod
+            }
+            BeforeSendPost("/api/v1/visitor/logs/set-log", obj1, function (e) {
+                if (e.code === 0) {
+                    // message.success('获取登录历史信息!')
+                } else {
+                    message.error(e.message)
+                }
+            })
             if (d.code === 0) {
                 message.success('登录成功!');
-                Cookies.set('account', account)
                 Cookies.set('token', "Bearer " + d.result.token)
+                Cookies.set('account', account)
                 _this.props.history.push('/home')
             } else {
                 message.error(d.message)
             }
-        });
+        })
+    }
+    // 获取登录IP和登录地址
+    componentWillMount() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'http://pv.sohu.com/cityjson?ie=utf-8'; // 获取登录IP和登录地址的搜狐平台接口
+        document.body.appendChild(script)
+        setTimeout(() => {
+            var obj = window.returnCitySN
+            this.setState({
+                ip: obj.cip,
+                address: obj.cname
+            })
+        }, 500);
+        if (Cookies.get('account')) {
+            if (this.props.history.length < 3) this.props.history.push('/home')
+            else this.props.history.goBack();
+        }
     }
     // 获取操作系统名称
     getOperationSys = () => {
@@ -287,23 +319,6 @@ class Login extends Component {
         });
     }
 
-    // <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>  
-    // <script type="text/javascript">  
-    //     document.write(returnCitySN["cip"]+','+returnCitySN["cname"])  
-    // </script>
-    componentWillMount() {
-        clearTimeout(this.timer)
-        let script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = "http://pv.sohu.com/cityjson?ie=utf-8"
-        document.body.appendChild(script);
-      }
-    componentWillMount() {
-        if (Cookies.get('account')) {
-            if (this.props.history.length < 3) this.props.history.push('/home')
-            else this.props.history.goBack();
-        }
-    }
     render() {
         const { visiblePhone, loading, verifyArr, visiblePass } = this.state;
         return (

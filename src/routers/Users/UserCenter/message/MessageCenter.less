@@ -75,85 +75,91 @@
 //     }
 // }
 
-.messageList{
-    margin-bottom: 200px;
-    .messageBox-header{
-        background: #ffffff;
-        border: 1px solid rgba(217,217,217,0.6);
-        // border-bottom: 2px solid rgba(217,217,217,0.6);
-        border-radius: 3px;
-        padding: 0 20px;
-        height: 60px;
-        line-height: 60px;
-        color: black;
-        font-size: 16px;
-        font-weight: bold;
-    }
-    .messageBox-choice{
-        height: 50px;
-        .choice-wrapper{
-            clear: both;
-            .choice-left{
-                float: left;
-                margin: 15px 0px 0px 20px;
-                .choice-left-color{
-                    color: #00A0E9;
-                }
-                span{
-                    float: left;
-                    padding: 0px 6px;
-                    cursor:pointer;
-                }
-            }
-            .choice-right{
-                float: right;
-                margin: 10px 20px 0px 0px;
-                border: 1px solid #21ACEC;
-                padding: 3px 13px;
-                border-radius: 20px;
-                color: #21ACEC;
-                cursor:pointer;
-                
-            }
-        }
-        
-    }
-    .messageBox-list{
-        background: #ffffff;
-        cursor:pointer;
-        .listRead{
-            .ant-list-item-meta-title{
-                color:#999999;
-            }
-        }
-        .listNoRead{
-            .ant-list-item-meta-title{
-                color:#333333;
-            } 
-        }
-        .messageBox-list-time{
-            font-size:12px;
-            font-family:MicrosoftYaHei;
-            color:rgba(153,153,153,1);
-        }
-        .MarkRead{
-            color: #21ACEC;
-            margin-left: 15px;
-        }
-        .isMarkRead{
-            color: #999;
-            margin-left: 15px;
-        }
-        .noMessageData{
-            height:242px;
-            margin: auto 0;
-            position: relative;
-            .messageImg{
-                position: absolute;
-                top: 15%;
-                left: 39%;
-            }
-        }
-        
-    }
+.messageList {
+	margin-bottom: 200px;
+	.messageBox-header {
+		background: #ffffff;
+		border: 1px solid rgba(217, 217, 217, 0.6);
+		// border-bottom: 2px solid rgba(217,217,217,0.6);
+		border-radius: 3px;
+		padding: 0 20px;
+		height: 60px;
+		line-height: 60px;
+		color: black;
+		font-size: 16px;
+		font-weight: bold;
+	}
+	.messageBox-choice {
+		height: 50px;
+		.choice-wrapper {
+			clear: both;
+			.choice-left {
+				float: left;
+				margin: 15px 0px 0px 20px;
+				.choice-left-color {
+					color: #00a0e9;
+				}
+				span {
+					float: left;
+					padding: 0px 6px;
+					cursor: pointer;
+				}
+			}
+			.choice-right {
+				float: right;
+				margin: 10px 20px 0px 0px;
+				border: 1px solid #21acec;
+				padding: 3px 13px;
+				border-radius: 20px;
+				color: #21acec;
+				cursor: pointer;
+			}
+		}
+	}
+	.messageBox-list {
+		background: #ffffff;
+		cursor: pointer;
+		.ant-list-item {
+            height: 54px;
+			.listRead {
+				.ant-list-item-meta-title {
+					color: #999999;
+				}
+			}
+			.listNoRead {
+				.ant-list-item-meta-title {
+					color: #333333;
+				}
+			}
+			.messageBox-list-time {
+				font-size: 12px;
+				font-family: MicrosoftYaHei;
+				color: rgba(153, 153, 153, 1);
+			}
+			.MarkRead {
+				color: #21acec;
+				margin-left: 15px;
+			}
+			.isMarkRead {
+				color: #999;
+				margin-left: 15px;
+			}
+			.noMessageData {
+				height: 242px;
+				margin: auto 0;
+				position: relative;
+				.messageImg {
+					position: absolute;
+					top: 15%;
+					left: 39%;
+				}
+			}
+		}
+		.ant-pagination-next {
+			margin-right: -8px;
+		}
+		.ant-pagination-options-quick-jumper input {
+			margin-right: -8px;
+		}
+	}
 }

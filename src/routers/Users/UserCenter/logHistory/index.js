@@ -22,6 +22,7 @@ class Message extends Component {
     state = {
         dataHistory: [],
         data: [],
+        allcount: 1,
         columns: [{
             title: '登录时间',
             dataIndex: 'createTime',
@@ -51,36 +52,34 @@ class Message extends Component {
     }
 
     setData = () => {
-        this.state.dataHistory.map((item, index)=>{
-            this.setState({
-                data: [{
-                    key: index,
-                    createTime: item.Created,
-                    loginIP: item.LoginIp,
-                    device: item.LoginMethod,
-                    loginaddress: item.LoginAddr
-                }]
-            })
+        var arr = [];
+        var totle = 0;
+        this.state.dataHistory.forEach((item, index) => {
+            var obj = {
+                key: index,
+                createTime: item.Created,
+                loginIP: item.LoginIp,
+                device: item.LoginMethod,
+                loginaddress: item.LoginAddr
+            };
+            arr.push(obj);
+            totle = index + 1;
         })
+        this.setState({
+            data: arr,
+            allcount: totle
+        })
+        console.log('页数------------',totle)
     }
-    handleTime = (text, record, index) => {
-        console.log('222222222222222222222', text)
-    }
+    // handleTime = (text, record, index) => {
+    // }
     goSetAccount = () => {
         this.props.setPage('setAccount');
     }
     componentDidMount = () => {
         let _this = this
-        // CgicallPost("/apiv1/user/loginHistory", '', function (d) {
-        //     if (d.result) {
-        //         _this.setState({
-        //             dataHistory: d.result.history
-        //         });
-        //     } else {
-        //         message.error(GetErrorMsg(d));
-        //     }
-        // });
         BeforeSendGet("/api/v1/user/logs/get-logs", '', function (d) {
+            console.log('登录历史信息数组------------', d)
             if (d.result) {
                 _this.setState({
                     dataHistory: d.result.logs
@@ -92,6 +91,12 @@ class Message extends Component {
         });
     }
     render() {
+        const pagination = {
+            defaultCurrent: 1,
+            defaultPageSize: 10,
+            total: this.state.allcount,
+            size: 'small'
+        }
         return (
             <Provider store={this.store}>
                 <div className='users_wrap plate-container clearFix'>
@@ -110,9 +115,12 @@ class Message extends Component {
                                         </Breadcrumb.Item>
                                         <Breadcrumb.Item>登录历史</Breadcrumb.Item>
                                     </Breadcrumb>
-                                    <div className='logHistory-header'><span>登录历史</span></div>
+                                    <div className='logHistory-header'>
+                                        <span className='title'>登录历史</span>
+                                        <span className='tip'>最近30条登录记录如下</span>
+                                    </div>
                                     <div className='logHistory-table'>
-                                        <Table columns={this.state.columns} rowKey={this.state.data.key} dataSource={this.state.data} pagination={false} />
+                                        <Table columns={this.state.columns} rowKey={this.state.data.key} dataSource={this.state.data} pagination={pagination} />
                                     </div>
                                 </div>
                             </Content>
