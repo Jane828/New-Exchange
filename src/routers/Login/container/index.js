@@ -46,9 +46,9 @@ class Login extends Component {
             visiblePhone: true,
         });
     }
-    codeChange = (e) => {
-        this.state.codeValue = e.target.value;
-    }
+    // codeChange = (e) => {
+    //     this.state.codeValue = e.target.value;
+    // }
     handleOkPhone = (type) => {
         if (!type) {
             if (this.state.phone) type = 'phone';
@@ -81,12 +81,18 @@ class Login extends Component {
         }, 3000);
 
     }
-    // 登录验证获取token
+    // 登录验证获取token、获取登录历史信息
     PhoneVerify = (obj) => {
         let _this = this;
         var account = _this.state.userName
+        if (obj.code.length == 0) {
+            obj.code = "100000"
+        }
         BeforeSendPost("/api/v1/visitor/login", obj, function (d) {
-            console.log(d)
+            let System = _this.getOperationSys();
+            let Browser = _this.getBrowser();
+            let LoginMethod = System + ' ' + Browser;
+            console.log('获取登录历史信息------------------', LoginMethod, obj.username);
             if (d.code === 0) {
                 message.success('登录成功!');
                 Cookies.set('account', account)
@@ -97,6 +103,47 @@ class Login extends Component {
             }
         });
     }
+    // 获取操作系统名称
+    getOperationSys = () => {
+        var OS = '';
+        var OSArray = {};
+        var UserAgent = navigator.userAgent.toLowerCase();
+        OSArray.Windows = (navigator.platform == 'Win32') || (navigator.platform == 'Windows');
+        OSArray.Mac = (navigator.platform == 'Mac68K') || (navigator.platform == 'MacPPC')
+            || (navigator.platform == 'Macintosh') || (navigator.platform == 'MacIntel');
+        OSArray.iphone = UserAgent.indexOf('iPhone') > -1;
+        OSArray.ipod = UserAgent.indexOf('iPod') > -1;
+        OSArray.ipad = UserAgent.indexOf('iPad') > -1;
+        OSArray.Android = UserAgent.indexOf('Android') > -1;
+        for (var i in OSArray) {
+            if (OSArray[i]) {
+                OS = i;
+            }
+        }
+        return OS;
+    }
+    // 获取浏览器名称
+    getBrowser = () => {
+        var UserAgent = navigator.userAgent.toLowerCase();
+        var browser = null;
+        var browserArray = {
+            IE: window.ActiveXObject || "ActiveXObject" in window, // IE
+            Chrome: UserAgent.indexOf('chrome') > -1 && UserAgent.indexOf('safari') > -1, // Chrome浏览器
+            Firefox: UserAgent.indexOf('firefox') > -1, // 火狐浏览器
+            Opera: UserAgent.indexOf('opera') > -1, // Opera浏览器
+            Safari: UserAgent.indexOf('safari') > -1 && UserAgent.indexOf('chrome') == -1, // safari浏览器
+            Edge: UserAgent.indexOf('edge') > -1,// Edge浏览器
+            QQBrowser: /qqbrowser/.test(UserAgent), // qq浏览器
+            WeixinBrowser: /MicroMessenger/i.test(UserAgent) // 微信浏览器
+        };
+        for (var i in browserArray) {
+            if (browserArray[i]) {
+                browser = i;
+            }
+        }
+        return browser;
+    }
+
     GoogleVerify = (obj) => {
         let _this = this;
         BeforeSendPost("/apiv1/visitor/loginWithAuth", obj, function (d) {
@@ -223,7 +270,7 @@ class Login extends Component {
                         message.error(d.message)
                     }
                 })
-                
+
                 // CgicallPost("/api/v1/visitor/login",obj,function(d){
                 //     console.log(d)
                 //     if(d.result) {
@@ -240,9 +287,17 @@ class Login extends Component {
         });
     }
 
-    componentWillUnmount() {
+    // <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>  
+    // <script type="text/javascript">  
+    //     document.write(returnCitySN["cip"]+','+returnCitySN["cname"])  
+    // </script>
+    componentWillMount() {
         clearTimeout(this.timer)
-    }
+        let script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = "http://pv.sohu.com/cityjson?ie=utf-8"
+        document.body.appendChild(script);
+      }
     componentWillMount() {
         if (Cookies.get('account')) {
             if (this.props.history.length < 3) this.props.history.push('/home')
@@ -265,7 +320,7 @@ class Login extends Component {
                         visiblePhone={visiblePhone}
                         verifyArr={verifyArr}
                         getAuthCode={this.getAuthCode}
-                        codeChange={this.codeChange}
+                        // codeChange={this.codeChange}
                         codeType='login'
                         account={this.state.phone}
                         hidePhone={this.state.hidePhone}

@@ -42,65 +42,85 @@
 	}
 	.realName-Country-Name {
 		border: 1px solid rgba(217, 217, 217, 0.3);
-		height: 300px;
-		background: rgba(255, 255, 255, 1);
+		height: 339px;
+        background: rgba(255, 255, 255, 1);
 		.Country-select {
-			margin-top: 35px;
-            margin-left: 100px;
-            .title{
-                font-size: 16px;
-            }
+            margin-top: 30px;
+            margin-bottom: 30px;
+            margin-left: 178px;
 			span {
-				margin-right: 10px;
+                // margin-right: 10px;
+                font-size: 16px;
+                position: absolute;
+                top: 172px;
+                left: 772px;
 			}
 			.ant-select {
 				border: 1px solid #dadada;
 				border-radius: 5px;
-				width: 230px;
-            }
-            :global{
-                .ant-select-selection__placeholder {
-                    font-size: 14px;
+                width: 460px;
+                &:after{
+                    content: url(./img/input_button.png);
+                    position: absolute;
+                    top: 0;
+                    left: 414px;
                 }
+            }
+            :global(.ant-select-selection){
+                width: 458px;
+                height: 44px;
+                .ant-select-selection__rendered{
+                    width: 447px;
+                    height: 44px;
+                }
+                .ant-select-selection-selected-value{
+                    margin-top: 7px;
+                    font-size: 16px;
+                }
+                svg{
+                    display: none;
+                }
+            }
+            :global(.ant-select-selection__placeholder){
+                font-size: 12px;
             }
 		}
 		.name-input {
-			margin-top: 15px;
-            margin-left: 100px;
-            .title{
-                font-size: 16px;
-            }
+            margin-left: 138px;
 			.name-input-lastName {
-                // float: left;
-                margin-left: 16px;
+                display:inline-block;
+                margin-left: 15px;
 				span {
-					margin-right: 10px;
-				}
+                    margin-right: 10px;
+                    font-size: 16px;
+                }
 			}
 			.name-input-fistName {
-				// float: left;
-                margin-top: 15px;
-                margin-left: 16px;
+                display:inline-block;
+                margin-left: 54px;
 				span {
-					margin-right: 10px;
+                    margin-right: 10px;
+                    font-size: 16px;
 				}
             }
             .name-input-id{
                 margin-left: -32px;
-				margin-top: 15px;
+                margin-top: 30px;
 				span {
-					margin-right: 10px;
+                    margin-right: 10px;
+                    font-size: 16px;
 				}
             }
 			.name-input-Button {
-				margin-top: 25px;
-				margin-left: 158px;
+				margin-top: 30px;
+				margin-left: 180px;
 				.ant-btn {
-					width: 120px;
-					height: 36px;
+					width: 152px;
+					height: 48px;
 					background: rgba(0, 160, 233, 1);
-					border-radius: 24px;
-				}
+                    border-radius: 24px;
+                    font-size: 18px;
+                }
 			}
 		}
 	}

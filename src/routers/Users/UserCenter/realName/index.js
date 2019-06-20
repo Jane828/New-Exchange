@@ -8,6 +8,7 @@ import holdPassportShow from './img/hold_passport_show.png'
 import passportCover from './img/passport_cover.png'
 import passportInner from './img/passport_inner.png'
 import Tip from './img/tip.png'
+// import inputButton from './img/input_button.png'
 import store from '../store'
 import UserCenterMenu from '../menu'
 import { Provider, inject, observer } from 'mobx-react'
@@ -84,9 +85,9 @@ class RealName extends Component {
             givenName:e.target.value,
         });
     }
-    getId=(e)=>{
+    getId = (e) => {
         this.setState({
-            id:e.target.value,
+            id: e.target.value
         });
     }
     // userAgree=(e)=>{
@@ -120,7 +121,7 @@ class RealName extends Component {
         }
         if (true) {// this.state.agree
             if (this.state.familyName && this.state.givenName && this.state.id) {
-                if (true) {// this.state.Backside&&this.state.Declaration
+                if (this.state.id.length == 18) {// this.state.Backside&&this.state.Declaration
                     BeforeSendPost("/api/v1/user/update-identity", obj, function (d) {
                         if (d.result) {
                             message.success('提交成功!');
@@ -132,7 +133,7 @@ class RealName extends Component {
                         }
                     });
                 } else {
-                    // message.error('请上传图片')
+                    message.error('请输入18位有效身份证号码!')
                 }
             } else {
                 message.error('信息不完整')
@@ -182,8 +183,8 @@ class RealName extends Component {
                                     <div style={{display:this.state.realnameSubSuc?'none':'block'}}>
                                         <div className='realName-Country-Name'>
                                             <div className='Country-select'>
-                                                <span className='title'>国籍</span>
-                                                <Select placeholder="请选择" style={{ width: 360 }} onChange={this.handleChangeCou}>
+                                                <span>国籍</span>
+                                                <Select placeholder="请选择" onChange={this.handleChangeCou}>
                                                     <Option value="china">中国</Option>
                                                     <Option value="america">美国</Option>
                                                     <Option value="france">法国</Option>
@@ -193,16 +194,17 @@ class RealName extends Component {
                                                     <Option value="canada">加拿大</Option>
                                                     <Option value="brazil">巴西</Option>
                                                 </Select>
+                                                {/* <img src={inputButton}></img> */}
                                             </div>
                                             <div className='name-input clerafix'>
                                                 <div className='name-input-lastName'>
-                                                    <span className='title'>姓</span><Input size="large" onChange={this.getFamilyName} placeholder="请输入" style={{ width: '360px', height: '32px', background: '#ffffff' }} />
+                                                    <span>姓</span><Input size="large" onChange={this.getFamilyName} placeholder="请输入" style={{ width: '190px', height: '44px', background: '#ffffff' }} />
                                                 </div>
                                                 <div className='name-input-fistName'>
-                                                    <span className='title'>名</span><Input size="large" onChange={this.getGivenName} placeholder="请输入" style={{width:'360px',height: '32px',background:'#ffffff'}} />
+                                                    <span>名</span><Input size="large" onChange={this.getGivenName} placeholder="请输入" style={{width:'190px',height: '44px',background:'#ffffff'}} />
                                                 </div>
                                                 <div className='name-input-id'>
-                                                    <span className='title'>身份证号</span><Input size="large" onChange={this.getId} placeholder="请输入" style={{ width: '360px', height: '32px', background: '#ffffff' }} />
+                                                    <span>身份证号</span><Input size="large" onChange={this.getId} placeholder="请输入" style={{ width:'460px', height: '44px', background: '#ffffff' }} />
                                                 </div>
                                                 <div className='name-input-Button'>
                                                     <Button onClick={this.uploadUserInf} type="primary">认证</Button>
