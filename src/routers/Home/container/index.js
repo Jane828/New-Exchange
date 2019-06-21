@@ -126,14 +126,11 @@ class BannerSlider extends Component {
 	render () {
 		const items = [ {
             image: sliders1,
-            
 		}, {
             image: sliders2,
-		},
-        {
+		},{
             image: sliders3,
-        }
-		];
+        }];
 		const swiperOptions = {
 			preloadImages               : true,
 			autoplay                    : 4000,
@@ -297,12 +294,12 @@ class StrengthMode extends Component {
                 cls: "strth2",
                 msg: "顶尖安全团队 · 多重加密保护"
             },
-            {
-                img: strth3,
-                title: "社区节点奖励",
-                cls: "strth3",
-                msg: "成为节点用户 · 尊享超额奖励"
-            },
+            // {
+            //     img: strth3,
+            //     title: "社区节点奖励",
+            //     cls: "strth3",
+            //     msg: "成为节点用户 · 尊享超额奖励"
+            // },
             {
                 img: strth4,
                 title: "高速撮合引擎",

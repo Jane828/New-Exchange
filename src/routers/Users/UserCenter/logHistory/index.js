@@ -39,7 +39,7 @@ class Message extends Component {
             key: 'loginIP',
             className: 'styleMiddle'
         }, {
-            title: '登录方式',
+            title: '类型',
             dataIndex: 'device',
             key: 'device',
             className: 'styleMiddle'
@@ -69,7 +69,7 @@ class Message extends Component {
             data: arr,
             allcount: totle
         })
-        console.log('页数------------',totle)
+        // console.log('页数------------',totle)
     }
     // handleTime = (text, record, index) => {
     // }

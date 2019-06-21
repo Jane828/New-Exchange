@@ -48,15 +48,17 @@ class Login extends Component {
             visiblePhone: true,
         });
     }
-    // codeChange = (e) => {
-    //     this.state.codeValue = e.target.value;
-    // }
+    codeChange = (e) => {
+        this.state.codeValue = e.target.value;
+    }
     handleOkPhone = (type) => {
         if (!type) {
             if (this.state.phone) type = 'phone';
             if (this.state.isAuthentication) type = 'google';
         }
+        console.log(this.state)
         if (this.state.codeValue.length < 6 || this.state.codeValue.length > 6) {
+            // console.log(this.state.codeValue)
             message.error('验证码格式错误')
             return false;
         } else {
@@ -90,7 +92,7 @@ class Login extends Component {
         if (obj.code.length == 0) {
             obj.code = "100000"
         }
-        BeforeSendPost("/api/v1/visitor/login", obj, function (d) {
+        CgicallPost("/api/v1/visitor/login", obj, function (d) {
             let System = _this.getOperationSys();
             let Browser = _this.getBrowser();
             let LoginMethod = System + ' ' + Browser;
@@ -100,17 +102,18 @@ class Login extends Component {
                 loginaddr: _this.state.address,
                 loginmethod: LoginMethod
             }
-            BeforeSendPost("/api/v1/visitor/logs/set-log", obj1, function (e) {
-                if (e.code === 0) {
-                    // message.success('获取登录历史信息!')
-                } else {
-                    message.error(e.message)
-                }
-            })
             if (d.code === 0) {
+                CgicallPost("/api/v1/visitor/logs/set-log", obj1, function (e) {
+                    if (e.code === 0) {
+                        // message.success('获取登录历史信息!')
+                    } else {
+                        message.error(e.message)
+                    }
+                })
                 message.success('登录成功!');
                 Cookies.set('token', "Bearer " + d.result.token)
                 Cookies.set('account', account)
+
                 _this.props.history.push('/home')
             } else {
                 message.error(d.message)
@@ -190,7 +193,7 @@ class Login extends Component {
     }
     drawingImg = (email) => {
         let _this = this;
-        var captcha1 = new TencentCaptcha('2038116476', function (res) {
+        var captcha1 = new TencentCaptcha('2027665311', function (res) {
             if (res.ret === 0) {
                 var obj = {
                     username: email,
@@ -199,7 +202,7 @@ class Login extends Component {
                     ticket: res.ticket,
                     randstr: res.randstr
                 }
-                BeforeSendPost("/api/v1/visitor/phone-code", obj, function (d) {
+                CgicallPost("/api/v1/visitor/phone-code", obj, function (d) {
                     if (d.code === 0) {
                         _this.setState({
                             visiblePhone: true
@@ -208,43 +211,31 @@ class Login extends Component {
                         // _this.props.history.push('/home')
                     }
                 })
-                // CgicallPost("/apiv1/captchaReg",obj,function(d){
-                //     if(d.result) {
-                //         if((_this.state.isAuthentication == "false" || !_this.state.isAuthentication) && !_this.state.phone) {
-                //             _this.onlyEmailLogin();
-                //         }else {
-                //             _this.showModalPhone();
-                //         }
-                //     }else {
-                //         message.error(GetErrorMsg(d));
-                //     }
-
-                // });
             }
         });
         captcha1.show();
     }
-    onlyEmailLogin = () => {
-        var obj = {
-            account: this.state.userName,
-            // password : sha256(sha256(this.state.password) + sha256(this.state.password) + this.state.pwKey),
-            password: md5(this.state.password)
-        }
-        var _this = this;
-        this.setState({ LoginLoading: true });
-        CgicallPost("/apiv1/visitor/login", obj, function (d) {
-            if (d.result) {
-                message.success('登录成功!');
-                _this.props.history.push('/home');
-            } else {
-                message.error(GetErrorMsg(d))
-            }
-            this.setState({ LoginLoading: false });
-        });
-        setTimeout(() => {
-            _this.setState({ LoginLoading: false });
-        }, 10000);
-    }
+    // onlyEmailLogin = () => {
+    //     var obj = {
+    //         account: this.state.userName,
+    //         // password : sha256(sha256(this.state.password) + sha256(this.state.password) + this.state.pwKey),
+    //         password: md5(this.state.password)
+    //     }
+    //     var _this = this;
+    //     this.setState({ LoginLoading: true });
+    //     CgicallPost("/apiv1/visitor/login", obj, function (d) {
+    //         if (d.result) {
+    //             message.success('登录成功!');
+    //             _this.props.history.push('/home');
+    //         } else {
+    //             message.error(GetErrorMsg(d))
+    //         }
+    //         this.setState({ LoginLoading: false });
+    //     });
+    //     setTimeout(() => {
+    //         _this.setState({ LoginLoading: false });
+    //     }, 10000);
+    // }
 
     handleCancelPhone = () => {
         this.setState({ visiblePhone: false });
@@ -276,7 +267,7 @@ class Login extends Component {
                     password: md5(password)
                 }
                 // 判断用户输入邮箱密码是否正确
-                BeforeSendPost('/api/v1/visitor/check-user', objs, function (d) {
+                CgicallPost('/api/v1/visitor/check-user', objs, function (d) {
                     if (d.code === 0) {
                         // 判断邮箱是否绑定了手机号码
                         Cgicallgets("/api/v1/visitor/bind-info", obj, function (d) {
@@ -302,19 +293,6 @@ class Login extends Component {
                         message.error(d.message)
                     }
                 })
-
-                // CgicallPost("/api/v1/visitor/login",obj,function(d){
-                //     console.log(d)
-                //     if(d.result) {
-                //         _this.state.email = d.result.email
-                //         _this.state.phone =  d.result.phone;
-                //         _this.state.isAuthentication = d.result.isAuthentication;
-                //         _this.drawingImg();
-                //     }else {
-                //         message.error(GetErrorMsg(d,'loginCheck'))
-                //     }
-
-                // });
             }
         });
     }
@@ -335,7 +313,7 @@ class Login extends Component {
                         visiblePhone={visiblePhone}
                         verifyArr={verifyArr}
                         getAuthCode={this.getAuthCode}
-                        // codeChange={this.codeChange}
+                        codeChange={this.codeChange}
                         codeType='login'
                         account={this.state.phone}
                         hidePhone={this.state.hidePhone}

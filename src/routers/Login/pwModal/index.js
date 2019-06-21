@@ -35,7 +35,7 @@ class PassModal extends Component {
     }
     defaultModal = () => {
         this.setState({
-            loading: false, 
+            loading: false,
             emailHtml: '获取邮箱验证码',
             phoneHtml: '获取手机验证码',
             codeDisType: false,
@@ -77,7 +77,7 @@ class PassModal extends Component {
         form.validateFields([type], { first: true }, (err, values) => {
             if (!err) {
                 this.setState({ codeLoading: true })
-                let captcha1 = new TencentCaptcha('2038116476', function (res) {
+                let captcha1 = new TencentCaptcha('2027665311', function (res) {
                     if (res.ret === 0) {
                         // var obj = {
                         //     "Aid" : res.appid,
@@ -644,7 +644,7 @@ class PassWordInputs extends Component {
                                 // { validator: this.validateToNextPassword }
                             ],
                         })(
-                            <Input autocomplete="new-password off" className="code_input" onChange={this.getPassGrade} prefix={<Icon type="lock" />} type="password" placeholder="密码" />
+                            <Input.Password autocomplete="new-password off" className="code_input" onChange={this.getPassGrade} prefix={<Icon type="lock" />} type="password" placeholder="密码" />
                         )}
                     </Tooltip>
                 </FormItem>
@@ -655,7 +655,7 @@ class PassWordInputs extends Component {
                             { validator: this.compareToFirstPassword }
                         ],
                     })(
-                        <Input autocomplete="new-password off" className="code_input" onBlur={this.handleConfirmBlur} prefix={<Icon type="lock" />} type="password" placeholder="确认密码" />
+                        <Input.Password autocomplete="new-password off" className="code_input" onBlur={this.handleConfirmBlur} prefix={<Icon type="lock" />} type="password" placeholder="确认密码" />
                     )}
                 </FormItem>
                 {/* 更换绑定的手机号码 */}

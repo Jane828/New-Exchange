@@ -37,7 +37,7 @@ class FromBox extends Component {
                         rules: [{ required: true, message: '请输入密码' }],
                     })(
                         // <Input autocomplete="new-password"  prefix={<span className='font icon-mima'></span>} type="password" placeholder="admin" />
-                        <Input autocomplete="new-password" prefix={<Icon type="lock" />} name="loginPass" type="password" placeholder="登录密码" />
+                        <Input.Password autocomplete="new-password" prefix={<Icon type="lock" />} name="loginPass" type="password" placeholder="登录密码" />
                     )}
                 </FormItem>
                 <p className="forgetPass">
