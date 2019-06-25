@@ -27,7 +27,7 @@ class PhoChangeOne extends Component {
         changePho:'phone',
         changeGoogle:'google',
     }
-    // 邮箱验证码拼图
+    // 邮箱验证码倒计时
     countDown = () => {
         let num = this.state.timeAll;
         let _this = this;
@@ -56,11 +56,11 @@ class PhoChangeOne extends Component {
 
             }else {
                 message.error(GetErrorMsg(d));
+                message.error('获取失败!');
             }
         });
-
     }
-    // 手机验证码拼图
+    // 手机验证码倒计时
     countPhoDown = () => {
         let numChange = this.state.timePhoAll;
         let _this = this;
@@ -77,7 +77,7 @@ class PhoChangeOne extends Component {
         },1000)
     }
     // 获取手机验证码
-    getPhoMessage=()=>{
+    getPhoMessage = () => {
         let _this=this
         let obj = {
             type: 'phone-check',
@@ -90,6 +90,7 @@ class PhoChangeOne extends Component {
                 _this.countPhoDown()
             }else {
                 message.error(GetErrorMsg(d));
+                message.error('获取失败!');
             }
         });
     }
@@ -114,6 +115,8 @@ class PhoChangeOne extends Component {
                 if(changePhoCode == '' || changePhoCode == undefined){
                     message.error('手机验证码不能为空')
                     return
+                }else if(changePhoCode.length !== 6){
+                    message.error('验证码输入有误!')
                 }
             }
         }else if(this.state.type == 'google'){
@@ -127,6 +130,8 @@ class PhoChangeOne extends Component {
         if(changeEmailCode == '' || changeEmailCode == undefined){
             message.error('邮箱验证码不能为空')
             return
+        }else if(changeEmailCode.length !== 6){
+            message.error('验证码输入有误!')
         }
         let obj = {
             email: this.props.email,
@@ -138,28 +143,31 @@ class PhoChangeOne extends Component {
             code : changePhoCode
         }
         BeforeSendPost("/api/v1/user/email_code_check", obj, function(d){
+            if(d.code === -50004){
+                message.error('验证码错误');
+                return
+            } 
             if(d.result) {
                 BeforeSendPost("/api/v1/user/bind-phone", obj1, function(e){
                     if(e.result) {
                         _this.props.changePassValueTwo({changeGoogleCode, changeEmailCode, changePhoCode})
-                    }else {
-                        message.error('手机验证码错误');
+                    } else {
+                        message.error('验证码有误!');
                         return
                     } 
                 })
-            }else {
+            } else {
                 message.error(GetErrorMsg(d));
+                message.error('验证码有误!')
             } 
-        });
+        })
     }
-
    /* **************** */
     render(){
         const { getFieldDecorator } = this.props.form
         const { loading,loadingLogin } = this.props.store
 
         if(!this.state.type) {
-            console.log('this.state.arr',this.state.arr)
             this.state.type = this.state.arr[0];//如果是存在两种认证的时候arr=['google','phone'];
         }
         return (

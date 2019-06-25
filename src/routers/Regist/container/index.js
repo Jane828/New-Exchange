@@ -58,8 +58,10 @@ class Regist extends Component {
                         message.success("注册成功！")
                         Cookies.set('account', account)
                         _this.props.history.push('/home');
+                        console.log('Coolies----------', account)
                     } else {
                         message.error(GetErrorMsg(d))
+                        message.success("参数错误！")
                     }
                 });
             }

@@ -29,7 +29,7 @@ class Message extends Component {
             key: 'createTime',
             className: 'styleMiddle',
             render: (text) => {
-                text = new Date(text).getFullYear() + '-' + (new Date(text).getMonth() + 1) + '-' + new Date(text).getDate() + ' ' + new Date(text).getHours() + ':' + new Date(text).getMinutes() + ':' + new Date(text).getSeconds()
+                text = new Date(text).getFullYear() + '-' + ((new Date(text).getMonth() + 1)>9?(new Date(text).getMonth() + 1):'0'+(new Date(text).getMonth() + 1)) + '-' + (new Date(text).getDate()>9?new Date(text).getDate():'0'+new Date(text).getDate()) + ' ' + (new Date(text).getHours()>9?new Date(text).getHours():'0'+new Date(text).getHours()) + ':' + (new Date(text).getMinutes()>9?new Date(text).getMinutes():'0'+new Date(text).getMinutes()) + ':' + (new Date(text).getSeconds()>9?new Date(text).getSeconds():'0'+new Date(text).getSeconds())
                 // text = new Date(text * 1000).toLocaleDateString().replace(/\//g, "-") + " " + new Date(text * 1000).toTimeString().substr(0, 8)
                 return (<span>{text}</span>)
             }

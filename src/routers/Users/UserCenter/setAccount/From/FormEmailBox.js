@@ -49,6 +49,7 @@ class BoundPhoOne extends Component {
                 _this.countDown()
             } else if (d.code == -1) {
                 message.error(GetErrorMsg(d));
+                message.error('获取失败')
             }
         })
     }
@@ -62,6 +63,8 @@ class BoundPhoOne extends Component {
         if (inputEmailCode == '' || inputEmailCode == undefined) {
             message.error('邮箱验证码不能为空')
             return
+        }else if(inputEmailCode.length !== 6){
+            message.error('验证码输入有误!')
         }
         if (this.props.isAuthentication) {
             if (googleCode == '' || googleCode == undefined) {
@@ -78,6 +81,7 @@ class BoundPhoOne extends Component {
                 _this.props.passValueTwo({ inputEmailCode, googleCode })
             } else if (d.code == -1) {
                 message.error(GetErrorMsg(d));
+                message.error('验证码输入有误!')
             }
         });
     }

@@ -43,6 +43,7 @@ class PhoneChangeModel extends Component {
         this.setState({
             oldGoogleCode: e.changeGoogleCode,
             oldPhoCode: e.changePhoCode,
+            
             emailCode: e.changeEmailCode,
             current:1
         });

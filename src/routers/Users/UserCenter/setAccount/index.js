@@ -113,12 +113,13 @@ class SetAccount extends Component {
 
         BeforeSendGet("/api/v1/user/userinfo", '', function (d) {
             let userInf = d.result.info
+            console.log('getUserInf-----------', userInf)
             if (userInf) {
                 _this.setState({
                     // isAuthentication: userInf.isAuthentication,
-                    // isCertification: userInf.isCertification,
+                    isCertification: userInf.isCertification,
                     loginTime: userInf.logintime,
-                    passwordStrength: userInf.level,
+                    passwordStrength: userInf.pswlvl,
                     safeGrade: Number(userInf.softGrade),
                     phone: userInf.phone,
                     // transactionverification: userInf.transactionverification,
@@ -128,6 +129,7 @@ class SetAccount extends Component {
                 // _this.props.passEmailAut(_this.state.email,_this.state.isAuthentication,_this.state.phone);
             } else {
                 message.error(GetErrorMsg(d))
+                message.error('获取失败!')
             }
         })
 
@@ -170,12 +172,13 @@ class SetAccount extends Component {
 
         BeforeSendGet("/api/v1/user/userinfo", '', function (d) {
             let userInf = d.result.info
+            console.log('componentDidMount----userInf-------', userInf)
             if (userInf) {
                 _this.setState({
                     // isAuthentication: userInf.isAuthentication,
-                    // isCertification: userInf.isCertification,
+                    isCertification: userInf.isCertification,
                     loginTime: userInf.logintime,
-                    passwordStrength: userInf.level,
+                    passwordStrength: userInf.pswlvl,
                     safeGrade: Number(userInf.softGrade),
                     phone: userInf.phone,
                     // transactionverification: userInf.transactionverification,
@@ -263,16 +266,15 @@ class SetAccount extends Component {
         //         message.error(GetErrorMsg(d))
         //     }
         // });
-        BeforeSendGet("/api/v1/user/userinfo", '', function (d) {
-            console.log("phoBoundThree------------------")
-            console.log(d)
+        BeforeSendGet("/api/v1/user/userinfo", '', function (d) {            
             let userInf = d.result.info
+            console.log("phoBoundThree------------------",userInf)
             if (d.result) {
                 _this.setState({
                     isAuthentication: userInf.isAuthentication,
                     isCertification: userInf.isCertification,
                     loginTime: userInf.logintime,
-                    passwordStrength: userInf.level,
+                    passwordStrength: userInf.pswlvl,
                     safeGrade: Number(userInf.softGrade),
                     phone: userInf.phone,
                     transactionverification: userInf.transactionverification,
@@ -286,9 +288,6 @@ class SetAccount extends Component {
                 message.error(GetErrorMsg(d))
             }
         })
-
-
-
     }
     // passValueTwo=(e)=>{
     //     this.setState({
@@ -342,15 +341,14 @@ class SetAccount extends Component {
         // });
 
         BeforeSendGet("/api/v1/user/userinfo", '', function (d) {
-            console.log("changeNextThree---------------------")
-            console.log(d)
             let userInf = d.result.info
+            console.log("changeNextThree---------------------",userInf)
             if (d.result) {
                 _this.setState({
                     isAuthentication: userInf.isAuthentication,
                     isCertification: userInf.isCertification,
                     loginTime: userInf.logintime,
-                    passwordStrength: userInf.level,
+                    passwordStrength: userInf.pswlvl,
                     safeGrade: Number(userInf.softGrade),
                     phone: userInf.phone,
                     transactionverification: userInf.transactionverification,
@@ -509,7 +507,7 @@ class SetAccount extends Component {
         }
         const contentSet = {
             Set: '账户安全设置',
-            level: '安全等级',
+            pswlvl: '安全等级',
             boundPho: '绑定手机',
             unBound: '未绑定',
             upBound: '已绑定',
@@ -561,7 +559,7 @@ class SetAccount extends Component {
                                                             <span style={{ color: '#A4A4A4', fontSize: '10px' }}>
                                                                 {/* {this.state.loginTime} */}
                                                                 {/* {new Date(parseInt(this.state.loginTime) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ')} */}
-                                                                {new Date(this.state.loginTime).getFullYear() + '-' + (new Date(this.state.loginTime).getMonth() + 1) + '-' + new Date(this.state.loginTime).getDate() + ' ' + new Date(this.state.loginTime).getHours() + ':' + new Date(this.state.loginTime).getMinutes() + ':' + new Date(this.state.loginTime).getSeconds()}
+                                                                {new Date(this.state.loginTime).getFullYear() + '-' + ((new Date(this.state.loginTime).getMonth() + 1)>9?(new Date(this.state.loginTime).getMonth() + 1):'0'+(new Date(this.state.loginTime).getMonth() + 1)) + '-' + (new Date(this.state.loginTime).getDate()>9?new Date(this.state.loginTime).getDate():'0'+new Date(this.state.loginTime).getDate()) + ' ' + (new Date(this.state.loginTime).getHours()>9?new Date(this.state.loginTime).getHours():'0'+new Date(this.state.loginTime).getHours()) + ':' + (new Date(this.state.loginTime).getMinutes()>9?new Date(this.state.loginTime).getMinutes():'0'+new Date(this.state.loginTime).getMinutes()) + ':' + (new Date(this.state.loginTime).getSeconds()>9?new Date(this.state.loginTime).getSeconds():'0'+new Date(this.state.loginTime).getSeconds())}
                                                             </span>
                                                         </div>
                                                         <div className="one-style3">
@@ -600,7 +598,7 @@ class SetAccount extends Component {
                                                 <Content className="contentSet-Content">
                                                     <div className="contentSet-Content-Boa clerafix">
                                                         <div className="Boa-style1">
-                                                            <span className="Boa-style1-level">{contentSet.level}</span>
+                                                            <span className="Boa-style1-level">{contentSet.pswlvl}</span>
                                                         </div>
                                                         <div className="Boa-style2">
                                                             <Rate disabled value={this.state.safeGrade} />

@@ -141,11 +141,6 @@ class PassModal extends Component {
     }
     // 获取邮箱/手机验证码
     getAuthCode = (account, codeType, receiver, obj) => {
-        // var obj = {
-        //     type: codeType,
-        //     account: account,
-        //     receiver : receiver
-        // }
         obj.username = account
         var _this = this;
         CgicallPost("/api/v1/visitor/email-code", obj, function (d) {
@@ -155,8 +150,8 @@ class PassModal extends Component {
                 _this.setState({ codeLoading: false })
             } else {
                 message.error(GetErrorMsg(d));
+                message.error('获取失败!');
             }
-
         });
     }
     codeChange = (e) => {
@@ -210,7 +205,7 @@ class PassModal extends Component {
             // });
         }
     }
-    // 提交
+    // 点击提交
     updatePass = (event) => {
         // 邮箱及验证码处理
         let arr1;
@@ -231,7 +226,7 @@ class PassModal extends Component {
             _this.state.code = arr1[1];
         }
 
-        // 密码处理
+        // 重置密码
         let arr;
         if (this.state.type == 'email') arr = this.passChildEmail.handleSubmit();
         else arr = this.passChildPhone.handleSubmit();
@@ -254,8 +249,10 @@ class PassModal extends Component {
                 if (d.code === 0) {
                     message.success('密码重置成功！');
                     _this.props.cancelPass();
+                    location.reload(true)
                 } else {
                     message.error(GetErrorMsg(d));
+                    message.success('密码重置失败！');
                 }
 
             });

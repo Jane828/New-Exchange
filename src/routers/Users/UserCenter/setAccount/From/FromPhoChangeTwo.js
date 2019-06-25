@@ -42,7 +42,7 @@ class PhoChangeTwo extends Component {
     getPhoMessage = ()=>{
         let _this=this
         let inputPhoNumber = this.props.form.getFieldValue('changePhoNumber')
-        if (inputPhoNumber == "" || inputPhoNumber == undefined) {
+        if (inputPhoNumber == "" || inputPhoNumber == undefined || inputPhoNumber.length !== 11) {
             message.error('请填写正确的手机号码')
             return
         } 
@@ -57,6 +57,7 @@ class PhoChangeTwo extends Component {
                 _this.countDown()
             }else {
                 message.error(GetErrorMsg(d));
+                message.error('获取失败!');
             }
         });
     }
@@ -69,7 +70,13 @@ class PhoChangeTwo extends Component {
         if(newInputPhoCode == '' || newInputPhoCode == undefined){
             message.error('手机验证码不能为空')
             return
+        }else if(newInputPhoCode.length !== 6){
+            message.error('验证码有误')
         }
+        if (inputPhoNumber == "" || inputPhoNumber == undefined || inputPhoNumber.length !== 11) {
+            message.error('请填写正确的手机号码')
+            return
+        } 
         let objPho = {
             phone: inputPhoNumber,
             email: this.state.email,
@@ -79,6 +86,7 @@ class PhoChangeTwo extends Component {
             BeforeSendPost("/api/v1/user/bind-phone", objPho, function (d) {
                 if (d.result) {
                     _this.props.changeNextThree()
+                    location.reload(true)
                 } else {
                     if (d.error.code == 5006) {
                         _this.props.codeExpires()
@@ -87,8 +95,12 @@ class PhoChangeTwo extends Component {
                     } else if (d.error.code == 7001) {
                         message.error('该手机号已经被注册');
                         return
-                    }
+                    } else if (d.error.code == -50004){
+                        message.error('验证码错误');
+                        return
+                    } 
                     message.error(GetErrorMsg(d));
+                    message.error('获取失败!');
                 }
             })
         }

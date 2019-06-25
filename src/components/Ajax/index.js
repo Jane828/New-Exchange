@@ -74,7 +74,7 @@ let BeforeSendPost = function (url, obj, fun) {
 }
 
 // 潘
-let BeforeSendPut = function(url, obj, fun){
+let BeforeSendPut = function (url, obj, fun) {
     var sobj = {};
     for (var k in obj) {
         if (typeof obj[k] === "object") {
@@ -85,7 +85,7 @@ let BeforeSendPut = function(url, obj, fun){
     }
     url = version + url;
     $.ajax({
-        url:url,
+        url: url,
         type: "PUT",
         dataType: "json",
         data: sobj,
@@ -93,7 +93,7 @@ let BeforeSendPut = function(url, obj, fun){
             token = Cookies.get("token")
             xhr.setRequestHeader("Authorization", token);
         },
-        success:function(d){
+        success: function (d) {
             d = initBackDatas(d);
             fun(d);
         }

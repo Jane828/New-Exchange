@@ -44,7 +44,11 @@ class FromBox extends Component {
     // 获取手机短信验证码
     getPhoMessage = () => {
         let _this = this 
-        let inputPhoNumber = this.props.form.getFieldValue('phoNumber')     
+        let inputPhoNumber = this.props.form.getFieldValue('phoNumber')
+        if (inputPhoNumber == '' || inputPhoNumber == undefined || inputPhoNumber.length !== 11) {
+            message.error('请输入正确的手机号码!')
+            return
+        }     
         let obj = {
             type: 'phone-check',
             email: this.state.email,
@@ -56,6 +60,7 @@ class FromBox extends Component {
                 _this.countDown()
             } else {
                 message.error(GetErrorMsg(d));
+                message.error('获取失败!')
             }
         })
     }
@@ -73,8 +78,14 @@ class FromBox extends Component {
         if (inputPhoCode == '' || inputPhoCode == undefined) {
             message.error('手机验证码不能为空')
             return
+        }else if(inputPhoCode.length !== 6){
+            message.error('验证码输入有误!')
         }
         BeforeSendPost("/api/v1/user/bind-phone", obj, function (d) {
+            if (d.code == -50004){
+                message.error('验证码错误');
+                return
+            }
             if (d.result) {
                 _this.props.nextThree()
             } else {
@@ -85,8 +96,8 @@ class FromBox extends Component {
                 } else if (d.error.code == 7001) {
                     message.error('该手机号已经被注册');
                     return
-                }
-                message.error('手机号码格式错误');
+                } 
+                message.error('验证码输入有误!')
             }
         });
         // let obj1 = {

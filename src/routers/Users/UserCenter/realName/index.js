@@ -117,19 +117,21 @@ class RealName extends Component {
             givenname: this.state.givenName,
             country: this.state.Country,
             // idcard:this.state.idType,
-            id: this.state.id,
+            idcard: this.state.id,
         }
         if (true) {// this.state.agree
             if (this.state.familyName && this.state.givenName && this.state.id) {
                 if (this.state.id.length == 18) {// this.state.Backside&&this.state.Declaration
                     BeforeSendPost("/api/v1/user/update-identity", obj, function (d) {
-                        if (d.result) {
+                        console.log('实名认证---------', d)
+                        if (d.code === 0) {
                             message.success('提交成功!');
                             _this.setState({
                                 realnameSubSuc: true
                             });
                         } else {
                             message.error(GetErrorMsg(d))
+                            message.error('认证出错！')
                         }
                     });
                 } else {

@@ -56,9 +56,7 @@ class Login extends Component {
             if (this.state.phone) type = 'phone';
             if (this.state.isAuthentication) type = 'google';
         }
-        console.log(this.state)
         if (this.state.codeValue.length < 6 || this.state.codeValue.length > 6) {
-            // console.log(this.state.codeValue)
             message.error('验证码格式错误')
             return false;
         } else {
@@ -113,7 +111,6 @@ class Login extends Component {
                 message.success('登录成功!');
                 Cookies.set('token', "Bearer " + d.result.token)
                 Cookies.set('account', account)
-
                 _this.props.history.push('/home')
             } else {
                 message.error(d.message)
@@ -124,7 +121,7 @@ class Login extends Component {
     componentWillMount() {
         var script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = 'http://pv.sohu.com/cityjson?ie=utf-8'; // 获取登录IP和登录地址的搜狐平台接口
+        script.src = 'http://pv.sohu.com/cityjson?ie=utf-8'; 
         document.body.appendChild(script)
         setTimeout(() => {
             var obj = window.returnCitySN
@@ -278,12 +275,17 @@ class Login extends Component {
                                     })
                                     _this.drawingImg(_this.state.userName);
                                 } else {
-                                    let obj = {
-                                        username: _this.state.userName,
-                                        password: md5(_this.state.password),
-                                        code: ''
-                                    }
-                                    _this.PhoneVerify(obj)
+                                    let captcha1 = new TencentCaptcha('2027665311', function(res) {
+                                        if (res.ret === 0) {
+                                            let obj = {
+                                                username: _this.state.userName,
+                                                password: md5(_this.state.password),
+                                                code: ''
+                                            }
+                                            _this.PhoneVerify(obj)
+                                        }
+                                    })
+                                    captcha1.show()
                                 }
                             } else {
                                 message.error(GetErrorMsg(d))

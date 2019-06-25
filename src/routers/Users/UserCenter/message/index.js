@@ -293,7 +293,7 @@ class Message extends Component {
                                                         >
                                                         </List.Item.Meta>
                                                         <div className='messageBox-list-time'>
-                                                            {new Date(item.Created).getFullYear() + '-' + (new Date(item.Created).getMonth() + 1) + '-' + new Date(item.Created).getDate() + ' ' + new Date(item.Created).getHours() + ':' + new Date(item.Created).getMinutes()}
+                                                            {new Date(item.Created).getFullYear() + '-' + ((new Date(item.Created).getMonth() + 1)>9?(new Date(item.Created).getMonth() + 1):'0'+(new Date(item.Created).getMonth() + 1)) + '-' + (new Date(item.Created).getDate()>9?new Date(item.Created).getDate():'0'+new Date(item.Created).getDate()) + ' ' + (new Date(item.Created).getHours()>9?new Date(item.Created).getHours():'0'+new Date(item.Created).getHours()) + ':' + (new Date(item.Created).getMinutes()>9?new Date(item.Created).getMinutes():'0'+new Date(item.Created).getMinutes())}
                                                         </div>
                                                         <div onClick={this.handleList.bind(this, item, item.ID, index)} className={item.IsRead == 0 ? 'MarkRead' : 'isMarkRead'}>标记为已读</div>
                                                     </List.Item>
